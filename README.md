@@ -12,6 +12,10 @@ describe here worked for me at the time I needed a solution.
 
 See [doc](doc/) directory here.
 
+- [Ubuntu tips](doc/ubuntu-tips.md)
+- [SUSE tips](doc/suse-tips.txt)
+- [YaST development tips](doc/yast-devel.txt)
+
 
 # License
 
