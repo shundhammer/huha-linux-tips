@@ -7,6 +7,12 @@ a Linux system developer. They may or may not be useful for anybody else. For
 some things, there may be different approaches, or even better ones; but what I
 describe here worked for me at the time I needed a solution.
 
+
+# Content
+
+See [doc](doc/) directory here.
+
+
 # License
 
 GNU Free Documentation License
