@@ -214,7 +214,7 @@ in XFce: Map Windows key (Super_L)
 
 ### Avoid excessive (128 MB) Akonadi logging
 
-in `~/.local/share/akonadi/db_data/ib_logfile*_`:
+in `~/.local/share/akonadi/db_data/ib_logfile*`:
 
     akonadictl stop
     sudo vi /etc/akonadi/mysql-global.conf
