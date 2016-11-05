@@ -168,7 +168,7 @@ Add to `/etc/rc.local`:
 
 ### Load ~/.Xdefaults etc.:
 
-Create ~/.xprofile with
+Create `~/.xprofile` with
 
     USRRESOURCES=$HOME/.Xdefaults
 
