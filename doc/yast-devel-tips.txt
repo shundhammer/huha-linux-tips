@@ -1,0 +1,715 @@
+YaST2 / Ruby Integration
+========================
+
+Finding out YaST UI built-ins:
+
+    irb
+    require "yast"
+    Yast.import "UI"
+    Yast::UI.methods
+
+
+Suppressing (some) whitespace in GitHub diffs:
+
+    https://github.com/blog/967-github-secrets
+    Add    ?w=1    to URL
+
+VNC viewer during Scrum videoconf:
+
+    vncviewer -shared dhcp114.suse.cz:1
+    PW: viewonly
+
+
+Debugging YaST Installation
+===========================
+
+- Start VM:
+
+    xhost +
+    virt-manager
+
+- Create new VM
+- Boot VM - use kernel parameter
+
+    ssh=1
+
+- Qt installation: In xterm:
+
+    ssh -X root@192.168...
+    yast.ssh
+
+- NCurses installation: In xterm:
+
+    ssh root@192.168...
+    yast.ssh
+
+- Send to background:
+    ^Z
+    bg
+
+- Bind-mount files to edit:
+
+    cd /tmp
+    mkdir work
+    cp /usr/share/YaST2/modules/StorageProposal.rb .
+    mount -o bind StorageProposal.rb /usr/share/YaST2/modules/StorageProposal.rb
+
+- Preferred way: Edit on host PC and copy file into VM:
+
+    scp StorageProposal.rb root@192.168..../tmp/work/
+
+- Alternative: After completion: Copy changed files out of VM: (don't forget!)
+
+    scp /tmp/work/StorageProposal.rb 192.168.122.1:/tmp
+
+
+
+-----------------------------------------------------
+
+[13:45:29] <mvidner> Regarding the summaries and links, here's a
+                     "Standard epilogue" for my bugs:
+
+[13:45:31] <mvidner> Submitted to SLE14-SP33 and Factory,
+[13:45:32] <mvidner> Git: https://github.com/openSUSE/libstorage/pull/127
+[13:45:34] <mvidner> RPM: yast2-time-travel-3.3.3
+[13:45:35] <mvidner> IBS: https://build.suse.de/request/show/999
+[13:45:37] <mvidner> OBS: https://build.opensuse.org/request/show/999
+
+
+
+Creating a Driver Update CD (DUD)
+=================================
+
+    sudo zypper in mkdud
+
+    mkdud -c /tmp/sample.dud  --obs-keys --dist 13.2 yast2-storage-*.rpm
+
+    mkdud -c ../iso/nocow.dud --obs-keys --dist sles12 *.rpm
+
+    mkdud -c ../iso/nocow.dud --obs-keys --dist tw *.rpm
+
+
+
+Create a DUD with Single Files (instead of RPMs)
+================================================
+
+    mkdir -p files/usr/share/YaST2/modules
+    cp /usr/share/YaST2/modules/StorageProposal.rb files/usr/share/YaST2/modules
+
+    mkdud -c dasd-skip-reuse.dud --name "dasd-skip-reuse" --dist sles12 files/
+
+
+Add OBS Keys to RPMs in DUD
+===========================
+
+    mkdud --obs-keys ...
+
+
+List the Contents of a DUD
+==========================
+
+    mkdud --show mydud.dud
+
+or
+
+    zcat mydud.dud | cpio -t
+or
+    zcat mydud.dud | cpio -tv
+
+
+
+Integrating a DUD into an ISO
+=============================
+
+    sudo zypper in mksusecd
+
+    sudo mksusecd --create openSUSE-Tumbleweed-HuHa-x86_64.iso \
+         --initrd yast2-storage.dud \
+	 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20150525-Media.iso
+
+
+Create a minimal ISO
+====================
+
+    mksusecd --micro ...
+
+
+Use DUD via http:// from ~/Export
+=================================
+
+    cp mystuff.rpm ~/Export
+
+At boot prompt: use
+
+    http://w3.suse.de/~myself/mystuff.rpm
+
+
+
+Disable Kernel Module at Grub2 Prompt
+=====================================
+
+- At Grub2 prompt: Select entry to boot, then hit 'e' (edit)
+
+- Add to the kernel command line:
+
+    brokenmodules=nouveau
+
+- Boot that boot entry with F10
+
+- After boot: Check /etc/modprobe.d/50-blacklist.conf
+
+
+Package Version Bump
+====================
+
+once after clean installation:
+
+    sudo ln -s /mounts/work /work
+
+always:
+
+    bash
+    . /work/src/bin/.profile
+    vc
+
+
+Build Package
+=============
+
+For all packages that contain Ruby code:
+
+    rake tarball
+
+For pure C++ / autotools packages:
+
+    make package-local
+
+
+
+Setting up IBS (Internal Build Service)
+=======================================
+
+Edit ~/.oscrc:
+
+Add alias for OBS:
+
+    [https://api.opensuse.org]
++   aliases = obs
+    user = shundhammer
+    pass = ...
+
+
+Add new section for IBS:
+
+    [https://api.suse.de]
+    aliases = ibs
+    user = shundhammer
+    pass = ...
+
+
+
+Add shell alias in .zshrc (or .bashrc):
+
+    alias isc='osc -A ibs'
+
+source .zshrc / .bashrc:
+
+    . ~/.zshrc
+
+
+
+Commit libstorage or snapper
+============================
+
+Make sure to edit VERSION and write a change log entry:
+
+    vi VERSION
+    cd package
+    bash
+    . /work/src/bin/.profile
+    vc
+
+Create tarball with the new version:
+
+    cd ..
+    make -f Makefile.cvs
+    make package
+
+
+Check in to OBS Devel:YaST:Head
+
+Check out from OBS
+Check out from mirrored IBS (!) YaST:Head
+Submit to  SUSE:SLE-12-SP1:GA
+
+For SLE-12-SP1:
+
+    isc submitrequest Devel:YaST:Head libstorage SUSE:SLE-12-SP1:GA
+or
+    isc sr Devel:YaST:Head libstorage SUSE:SLE-12-SP1:GA
+
+
+    isc request show 4711
+
+
+
+Build system links from OBS to IBS
+==================================
+
+libstorage in IBS is a link to libstorage in OBS.
+
+    cd ibs
+    isc co Devel:YaST:Head/libstorage
+    ls -1
+
+libstorage-2.25.35.tar.bz2
+libstorage.changes
+libstorage.spec
+
+    isc up -u
+    ls -1
+
+      _link
+
+    cat _link
+
+<link project="openSUSE.org:YaST:Head" package="libstorage">
+<patches>
+  <!-- <branch /> for a full copy, default case  -->
+  <!-- <apply name="patch" /> apply a patch on the source directory  -->
+  <!-- <topadd>%define build_with_feature_x 1</topadd> add a line on the top (spec file only) -->
+  <!-- <add name="file.patch" /> add a patch to be applied after %setup (spec file only) -->
+  <!-- <delete name="filename" /> delete a file -->
+</patches>
+</link>
+
+    isc up -e
+    ls -1
+
+libstorage-2.25.35.tar.bz2
+libstorage.changes
+libstorage.spec
+
+
+
+Commit libyui-qt-pkg etc.
+=========================
+
+    cd ...ibs...
+    (copy tarball)
+    isc ar
+    isc ci -n
+
+    isc submitrequest Devel:YaST:Head libyui-qt-pkg SUSE:SLE-12-SP1:GA
+
+
+    cd ...obs...
+    ...obs/YaST:Head/libyui-qt-pkg 96 % rm *.tar.bz2
+    ...obs/YaST:Head/libyui-qt-pkg 98 % rsync -av ~/src/yast/libyui-qt-pkg/build/package/ .
+
+    osc ar
+    osc ci -n
+
+    osc submitrequest devel:libraries:libyui libyui-qt-pkg
+
+
+Download built RPMs from IBS
+============================
+
+    cd /space/shundhammer/rpms
+
+    rm libstorage*.rpm
+    isc getbinaries -d . home:shundhammer:storage libstorage SLE_12_SP1 x86_64
+
+For maintenance branches:
+
+    cd $HOME/ibs
+    cd home:shundhammer:branches:OBS_Maintained:yast2-storage/yast2-storage.SUSE_SLE-11-SP1_Update
+
+    isc getbinaries -d ~/space/rpms SUSE_SLE-11-SP1_Update x86_64
+
+
+Show my pending OBS submit requests
+===================================
+
+    osc request list --mine
+
+    osc request list --mine -s all -D 14
+
+
+Show pending OBS submit requests for a specific package
+=======================================================
+
+    osc request list openSUSE:Factory libstorage
+
+
+
+Build CMake Project with /usr/bin prefix
+========================================
+
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/bin
+
+
+
+Make package for CMake projects
+===============================
+
+libyui-qt:
+
+    make -f Makefile.cvs
+    cd build
+    make srcpackage
+
+-> tarball, spec file and changelog in build/package
+
+rake version:bump
+
+rake osc:sr
+
+
+
+Allow Vendor Change in Zypper
+=============================
+
+  https://en.opensuse.org/SDB:Vendor_change_update
+
+    vi /etc/zypp/zypp.conf
+Add
+    solver.allowVendorChange = true
+
+
+Check pkg-bindings
+==================
+
+    irb
+
+    require "yast"
+    Yast.import "Pkg"
+
+
+Fix Complaints about Missing libboost_* in inst-sys
+===================================================
+
+- Use ssh installation
+
+- Before starting yast.ssh, enable snapper extension:
+
+    enable snapper
+
+- Start installation:
+
+    yast.ssh
+
+
+Packages Used in inst-sys
+=========================
+
+    cat /.packages.root
+    cat /.packages.*
+
+    ll /update/000
+    ll /update/???
+
+
+
+Debugging "extend" in the inst-sys
+==================================
+
+[11:23:06] <ancorgs> snwint: I'm debugging this in a s390x orthos machine
+           and "extend cracklib-dict-full.rpm" is returning "extend ok" but
+	   apparently doing nothing
+[11:23:17] <ancorgs> snwint: how can I debug?
+[11:23:56] <ancorgs> in x86 looks like the whole dictionary is actually
+           in inst-sys from the very beginning, so loading the extension is
+	   kinda pointless (not sure if it works or not)
+[11:23:57] <snwint> there's a log, I think in /var/log/extend
+[11:24:40] <snwint> you can also use 'extend -v'
+[11:25:12] <snwint>  /etc/instsys.parts (or so) contains the list of extensions
+[11:25:57] <snwint> if boot option debug=ignore helps, it's probably some
+           signature checking going wrong
+
+
+Check Ruby Syntax
+=================
+
+    rake check:syntax
+
+See also .travis.yml in project toplevel dir
+
+
+Commit one patch at a time in Git
+=================================
+
+    git add -p
+
+
+
+Submit to older release (SLES-12-GA etc.)
+=========================================
+
+- check out branch for that release with git
+
+- edit / create pull request / merge
+
+- submit changes:
+
+    rake osc:sr
+
+
+Testing Multipath
+=================
+
+qemu-system-x86_64 -enable-kvm -display sdl -device cirrus-vga -m 1024
+-boot d -drive
+file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
+file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
+file=/usr/local/src/ISOs/SLES-11-SP4-DVD-x86_64-GM-DVD1.iso,media=cdrom,format=raw
+-redir tcp:10022::22
+
+
+
+Workflow for Testing libstorage in inst-sys
+===========================================
+
+- Create tarball:
+
+    cd /space/shundhammer/src/yast/libstorage
+
+    make package-local
+
+
+- Check tarball into IBS:
+
+    cd /space/shundhammer/ibs/home:shundhammer:storage/libstorage
+
+    rsync  -av --exclude .gitignore /space/shundhammer/src/yast/libstorage/package/ .
+    isc ar
+    isc ci -n
+    isc rebuild
+
+
+- Wait for build in IBS to finish
+
+
+- Fetch RPMs from IBS:
+
+    cd /space/shundhammer/rpms
+
+    isc getbinaries -d . home:shundhammer:storage libstorage SLE_12_SP1 x86_64
+
+- Create DUD:
+
+    mkdud  -c ../iso/verbose-libstorage.dud --obs-keys --dist sles12 *.rpm
+
+
+- Integrate DUD into ISO:
+
+    cd /space/iso
+
+    sudo mksusecd --create SLE-12-SP1-ZZZ-HuHa.iso --initrd \
+        verbose-libstorage.dud \
+	SLE-12-SP1-Server-DVD-x86_64-Beta2-DVD1.iso
+
+
+- Start installation VM:
+
+    sudo virt-install-sles
+
+- Start installation in ssh session:
+
+    ssh -X root@192.168.100.230
+    yast.ssh
+
+
+- Watch log:
+
+    ssh -X root@192.168.100.230
+    cd /var/log/YaST2
+    tail -F y2log
+
+
+
+Testing Multiversion Packages
+=============================
+
+    sudo vi /etc/zypp/zypp.conf
+
+search for "multiversion" and change that line to:
+
+    multiversion = provides:multiversion(kernel), provides:multiversion(skelcd)
+
+
+UEFI in QEMU
+============
+
+Install packages
+- ovmf
+- qemu-ovmf-x86_64
+
+For virt-install:
+
+    OVMF_DIR=/usr/share/qemu
+
+    virt-install \
+      --connect=qemu:///system \
+      --location=$ISO \
+      --name=$VM_NAME \
+      --disk=$STORAGE \
+      --memory=$VM_MEM \
+      --boot loader=$OVMF_DIR/ovmf-x86_64-opensuse-code.bin,loader_ro=yes,loader_type=pflash,nvram_template=$OVMF_DIR/ovmf-x86_64-opensuse-vars.bin \
+      $EXTRA_ARGS
+
+
+Restart OBS checkout service
+============================
+
+    osc service rr
+
+
+Run YaST Ruby script from the command line
+==========================================
+
+    ruby -ryast -e 'puts Yast::Builtins.xy()'
+
+
+Build for Debian
+================
+
+    osc build mypackage.dsc
+
+Working example:
+
+Nasty, using debian* files:
+
+    https://build.opensuse.org/package/show/YaST:Head:Travis/yast2
+
+Nice and shiny:
+
+    https://build.opensuse.org/package/show/YaST:Head:Travis/ruby-yast-rake
+
+
+
+Resurrect old LVM to get y2logs
+===============================
+
+    vgchange -ay
+
+
+Rake
+====
+
+Show targets:
+
+  rake -T
+
+Show where a target is defined:
+
+    rake -w <target>
+
+Verbose ("trace"):
+
+    rake -t <target>
+
+
+Jenkins
+=======
+
+    Wiki:     https://wiki.microfocus.net/index.php/YaST/jenkins
+    Server:   https://ci.suse.de/view/YaST/
+    Snapper:  https://ci.suse.de/job/snapper-master/
+
+Jenkins is polling the GitHub repo with
+
+    git -c core.askpass=true ls-remote -h https://github.com/openSUSE/snapper.git
+
+then checks out the latest revision
+then does
+
+    rake osc:sr
+    make -f Makefile.ci package
+    rpmbuild -ba /home/abuild/rpmbuild/SOURCES/snapper.spec
+
+    osc -A https://api.suse.de/ commit -m Updated to git ref a0d96b0
+    osc -A 'https://api.suse.de/' --traceback --verbose checkout 'Devel:YaST:Head' snapper
+    osc -A 'https://api.suse.de/' cat 'SUSE:SLE-12-SP2:GA' 'snapper' 'snapper.spec' > /tmp/yast-rake20160419-11797-1mbe4bf
+    yes | osc -A 'https://api.suse.de/' submitreq --no-cleanup 'Devel:YaST:Head' 'snapper' 'SUSE:SLE-12-SP2:GA' -m 'submit new version 0.3.2' --yes
+
+
+Configure Jenkins what to do:
+
+    https://ci.suse.de/
+
+- Log in (!)
+
+- Search project
+
+- Click "configure" on the left,
+  scroll all the way down to the "Command" multi line edit
+
+
+Fetch config:
+
+    https://ci.suse.de/view/YaST/job/yast-snapper-master/config.xml
+
+
+RSpec
+=====
+
+Verbose and colorized output:
+
+    rspec -cf d  *.rb
+
+
+
+Find out maintained versions
+============================
+
+    osc maintained libstorage
+    -> openSUSE ...
+
+    isc maintained libstorage
+    -> SLE-12...
+
+    isc maintained yast2-storage
+    -> SLE-11...
+
+(libstorage was part of yast2-storage before SLE-12)
+
+
+
+Security updates
+================
+
+    isc mbranch --checkout libstorage
+    isc mbranch --checkout yast2-storage
+
+For each subdirectory there:
+
+    isc sr -m "CVE-2016-5746 bsc#986971"
+
+
+
+QEMU PPC64
+==========
+
+    qemu-system-ppc64   \
+        -cpu POWER8     \
+        -display sdl    \
+        -m 1024         \
+        -boot d         \
+        -drive file=/wrk1/images/test432,media=disk,format=raw  \
+        -drive file=/wrk1/iso/SLE-12-....iso,media=cdrom,format=raw,readonly
+
+
+suse.com IMAP server
+====================
+
+gwmail.nue.novell.com
+gwmail.emea.novell.com
+
+
+
+Truncate or wrap long lines in Emacs
+====================================
+
+M-x toggle-truncate-lines

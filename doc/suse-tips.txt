@@ -1,0 +1,30 @@
+IMAP / Sieve
+============
+
+  sudo zypper in python-managesieve
+  sieveshell --user=sh --port=4190 --tls imap-int.suse.de
+
+
+
+Compile own NVidia driver
+=========================
+
+  echo "blacklist nouveau" >> /etc/modprobe.d/50-blacklist.conf
+
+  add kernel command parameter:
+
+  nouveau.modeset=0
+
+
+
+Change Thunderbird "Trash" Folder
+===================================
+
+    vi ~/.thunderbird/*.default
+    vi prefs.js
+
+Add for the correct (!) account:
+
+    user_pref("mail.server.server4.trash_folder_name", "Gelöscht");
+
+
