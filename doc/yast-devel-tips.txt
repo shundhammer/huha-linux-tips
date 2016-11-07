@@ -676,11 +676,3 @@ QEMU PPC64
         -drive file=/wrk1/images/test432,media=disk,format=raw  \
         -drive file=/wrk1/iso/SLE-12-....iso,media=cdrom,format=raw,readonly
 
-
-suse.com IMAP server
-====================
-
-gwmail.nue.novell.com
-gwmail.emea.novell.com
-
-
