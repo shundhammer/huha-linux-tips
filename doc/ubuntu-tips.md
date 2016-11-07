@@ -205,6 +205,29 @@ map key to
 in XFce: Map Windows key (Super_L)
 
 
+### Fix video output tearing for Intel graphics
+
+    cd /usr/share/X11/xorg.conf.d
+
+Create file `20-intel.conf`:
+
+    Section "Device"
+        Identifier "Intel Graphics"
+        Driver "intel"
+        Option "AccelMethod" "SNA"
+        Option "TearFree"    "True"
+    EndSection
+
+Restart X11 (Ctrl-Alt-Backspace)
+
+Check in Xorg.log:
+
+    grep -i TearFree /var/log/Xorg.0.log
+
+    [  8758.350] (**) intel(0): Option "TearFree" "True"
+    [  8758.354] (**) intel(0): TearFree enabled
+
+
 
 
 -----
