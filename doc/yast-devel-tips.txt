@@ -145,20 +145,6 @@ At boot prompt: use
 
 
 
-Disable Kernel Module at Grub2 Prompt
-=====================================
-
-- At Grub2 prompt: Select entry to boot, then hit 'e' (edit)
-
-- Add to the kernel command line:
-
-    brokenmodules=nouveau
-
-- Boot that boot entry with F10
-
-- After boot: Check /etc/modprobe.d/50-blacklist.conf
-
-
 Package Version Bump
 ====================
 
@@ -366,16 +352,6 @@ rake version:bump
 
 rake osc:sr
 
-
-
-Allow Vendor Change in Zypper
-=============================
-
-  https://en.opensuse.org/SDB:Vendor_change_update
-
-    vi /etc/zypp/zypp.conf
-Add
-    solver.allowVendorChange = true
 
 
 Check pkg-bindings
@@ -708,8 +684,3 @@ gwmail.nue.novell.com
 gwmail.emea.novell.com
 
 
-
-Truncate or wrap long lines in Emacs
-====================================
-
-M-x toggle-truncate-lines
