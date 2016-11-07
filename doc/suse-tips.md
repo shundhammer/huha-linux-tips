@@ -42,7 +42,10 @@ Add kernel command parameter:
 
 - Add to the kernel command line:
 
+    ```
     brokenmodules=nouveau
+    ```
+
 
 - Boot that boot entry with F10
 
