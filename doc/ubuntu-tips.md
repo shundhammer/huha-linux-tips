@@ -451,7 +451,7 @@ Caution: This forces the label to be uppercase.
 ### Simple graphical network monitoring:
 
 
-_etherape_ is a GUI to show network connections in a graph with a line for each
+_EtherApe_ is a GUI to show network connections in a graph with a line for each
 connection that corresponds to the amount of traffic.
 
 ![Etherape screenshot]
