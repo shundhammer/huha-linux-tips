@@ -442,3 +442,27 @@ Alternative:
     sudo mlabel -i /dev/sdc1 ::'MYLABEL'
 
 Caution: This forces the label to be uppercase.
+
+
+-----
+
+## Network
+
+### Simple graphical network monitoring:
+
+
+_etherape_ is a GUI to show network connections in a graph with a line for each
+connection that corresponds to the amount of traffic.
+
+![Etherape screenshot]
+(http://etherape.sourceforge.net/images/v0.9.3.png)
+
+
+Install:
+
+    sudo apt-get install etherape
+
+Using:
+
+    xhost +
+    sudo etherape
