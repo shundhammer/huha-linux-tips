@@ -676,3 +676,31 @@ QEMU PPC64
         -drive file=/wrk1/images/test432,media=disk,format=raw  \
         -drive file=/wrk1/iso/SLE-12-....iso,media=cdrom,format=raw,readonly
 
+
+Merge feature branch back to master
+===================================
+
+- Start from master and create a new branch for merging:
+
+    git co master
+    git branch my-merge-branch
+    git co my-merge-branch
+
+- Merge feature branch to master:
+
+    git merge my-feature-branch
+
+- Fix up version number in .spec file
+
+- Fix up version number(s) in .changes file
+
+- Revert commits from feature branch that shouldn't be in master
+  (e.g. Jenkins submit target in Rakefile)
+
+- Push to own fork on GitHub
+
+- Create pull request against master
+
+- Have pull request reviewed
+
+- Merge pull request
