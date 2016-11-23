@@ -635,6 +635,33 @@ Verbose and colorized output:
 
     rspec -cf d  *.rb
 
+Always add color:
+
+    vi ~/.rspec
+add
+    --color
+
+
+Disable RSpec tests
+===================
+
+Prefix "it" or "describe" with "x"
+
+Single test:
+
+Change
+    it "does something"
+to
+    xit "does something"
+
+All tests in a test file:
+
+
+Change
+    describe SomeStuff::Someclass do
+to
+    xdescribe SomeStuff::Someclass do
+
 
 
 Find out maintained versions
