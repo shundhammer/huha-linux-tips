@@ -452,6 +452,19 @@ Caution: This forces the label to be uppercase.
 
 -----
 
+## Multimedia
+
+### Get DVDs to play
+
+https://help.ubuntu.com/community/RestrictedFormats
+
+Don't forget to activate `libdvdcss`:
+
+    sudo /usr/share/doc/libdvdread4/install-css.sh
+
+
+-----
+
 ## Network
 
 ### Simple graphical network monitoring:
