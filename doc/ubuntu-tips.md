@@ -325,6 +325,12 @@ Show:
 
 
 
+### Find out installation candidate package
+
+    sudo apt-cache policy <pkg-name>
+
+
+
 ### Find out what packages were manually installed:
 
     aptitude search '?installed ?not(?automatic)' --disable-columns -F '%p' | \
