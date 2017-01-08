@@ -228,6 +228,23 @@ Check in Xorg.log:
     [  8758.354] (**) intel(0): TearFree enabled
 
 
+### Fix brightness buttons for laptop with NVidia graphics
+
+    cd /usr/share/X11/xorg.conf.d
+
+Create a file `12-nvidia-brightness.conf` with this content:
+
+    Section "Device"
+        Identifier  "Default Device"
+        Driver      "nvidia"
+        Option      "RegistryDwords" "EnableBrightnessControl=1"
+    EndSection
+
+Restart X11: Ctrl-Alt-Backspace or
+
+    service lightdm restart
+
+(Kubuntu also uses LightDM!)
 
 
 -----
