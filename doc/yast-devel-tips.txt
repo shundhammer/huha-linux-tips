@@ -63,6 +63,20 @@ Debugging YaST Installation
     scp /tmp/work/StorageProposal.rb 192.168.122.1:/tmp
 
 
+Updated files in /y2update
+==========================
+
+After ssh'ing to the machine to be installed:
+
+    mkdir /y2update
+    cd /y2update
+
+    mkdir modules
+
+From the remote machine, copy the changed script files to /y2update/...
+/y2update is used like /usr/share/YaST2, but with higher priority.
+
+
 
 -----------------------------------------------------
 
