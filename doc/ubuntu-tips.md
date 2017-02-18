@@ -385,7 +385,7 @@ Check `/etc/apt/sources.list.d` for duplicates!
     EndSection
 
 
-or create a file in `/usr/share/X11/xorg.conf.d`, e.g. 
+or create a file in `/usr/share/X11/xorg.conf.d`, e.g.
 `12-nvidia-brightness.conf`:
 
     Section "Device"
@@ -445,6 +445,28 @@ If that doesn't work:
 Fix:
 
     export NO_AT_BRIDGE=1
+
+
+### Emacs doesn't mark a region anymore with Ctrl-Space
+
+_ibus_ stole that key. Remove that keybinding from ibus so it is available
+again for Emacs:
+
+    ibus-setup
+
+(as normal user, not as root!)
+
+Tab "General", "Next input method"; click on "...", then "Delete".
+
+**Nobody needs that bullshit!**
+
+What fucking moron came up with such a brain-dead idea?
+
+Seriously: It is already hard enough to advocate a Linux desktop in the sorry
+state that it is. We surely don't need anybody fucking around with it every
+couple of weeks to make it even harder to use. And breaking the most basic and
+single most important key combination of one of the oldest and most widely-used
+Linux editors like Emacs is adding insult to injury.
 
 
 
