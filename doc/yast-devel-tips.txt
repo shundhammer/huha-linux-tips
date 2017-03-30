@@ -1,27 +1,32 @@
-YaST2 / Ruby Integration
-========================
+# HuHa's Tips for YaST Development
 
-Finding out YaST UI built-ins:
+Author: Stefan.Hundhammer@gmx.de
+
+License: GNU Free Documentation License
+
+
+## Use YaST2 Classes in irb (Interactive Ruby):
+
 
     irb
     require "yast"
     Yast.import "UI"
+
+Finding out YaST UI built-ins:
+
     Yast::UI.methods
 
 
-Suppressing (some) whitespace in GitHub diffs:
+## GitHub
 
-    https://github.com/blog/967-github-secrets
-    Add    ?w=1    to URL
+### Suppress Whitespace Diffs in GitHub
 
-VNC viewer during Scrum videoconf:
+Add `?w=1` to URL:
 
-    vncviewer -shared dhcp114.suse.cz:1
-    PW: viewonly
+    https://github.com/blog/967-github-secrets?w=1
 
 
-Debugging YaST Installation
-===========================
+## Debugging YaST Installation
 
 - Start VM:
 
@@ -63,8 +68,7 @@ Debugging YaST Installation
     scp /tmp/work/StorageProposal.rb 192.168.122.1:/tmp
 
 
-Updated files in /y2update
-==========================
+## Updated files in /y2update
 
 After ssh'ing to the machine to be installed:
 
@@ -77,24 +81,15 @@ From the remote machine, copy the changed script files to /y2update/...
 /y2update is used like /usr/share/YaST2, but with higher priority.
 
 
+## DUDs and ISOs
 
------------------------------------------------------
+### Creating a Driver Update CD (DUD)
 
-[13:45:29] <mvidner> Regarding the summaries and links, here's a
-                     "Standard epilogue" for my bugs:
+Once:
 
-[13:45:31] <mvidner> Submitted to SLE14-SP33 and Factory,
-[13:45:32] <mvidner> Git: https://github.com/openSUSE/libstorage/pull/127
-[13:45:34] <mvidner> RPM: yast2-time-travel-3.3.3
-[13:45:35] <mvidner> IBS: https://build.suse.de/request/show/999
-[13:45:37] <mvidner> OBS: https://build.opensuse.org/request/show/999
+sudo zypper in mkdud
 
-
-
-Creating a Driver Update CD (DUD)
-=================================
-
-    sudo zypper in mkdud
+Later:
 
     mkdud -c /tmp/sample.dud  --obs-keys --dist 13.2 yast2-storage-*.rpm
 
@@ -104,8 +99,7 @@ Creating a Driver Update CD (DUD)
 
 
 
-Create a DUD with Single Files (instead of RPMs)
-================================================
+### Creating a DUD with Single Files (instead of RPMs)
 
     mkdir -p files/usr/share/YaST2/modules
     cp /usr/share/YaST2/modules/StorageProposal.rb files/usr/share/YaST2/modules
@@ -113,14 +107,12 @@ Create a DUD with Single Files (instead of RPMs)
     mkdud -c dasd-skip-reuse.dud --name "dasd-skip-reuse" --dist sles12 files/
 
 
-Add OBS Keys to RPMs in DUD
-===========================
+### Add OBS Keys to RPMs in DUD
 
     mkdud --obs-keys ...
 
 
-List the Contents of a DUD
-==========================
+### List the Contents of a DUD
 
     mkdud --show mydud.dud
 
@@ -132,8 +124,7 @@ or
 
 
 
-Integrating a DUD into an ISO
-=============================
+### Integrating a DUD into an ISO
 
     sudo zypper in mksusecd
 
@@ -142,14 +133,12 @@ Integrating a DUD into an ISO
 	 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20150525-Media.iso
 
 
-Create a minimal ISO
-====================
+### Create a minimal ISO
 
     mksusecd --micro ...
 
 
-Use DUD via http:// from ~/Export
-=================================
+### Use DUD via http:// from ~/Export
 
     cp mystuff.rpm ~/Export
 
@@ -158,45 +147,43 @@ At boot prompt: use
     http://w3.suse.de/~myself/mystuff.rpm
 
 
-
-Package Version Bump
-====================
-
-once after clean installation:
-
-    sudo ln -s /mounts/work /work
-
-always:
-
-    bash
-    . /work/src/bin/.profile
-    vc
+## YaST Package Handling
 
 
-Build Package
-=============
+### Build Package
 
-For all packages that contain Ruby code:
+#### Ruby Packages
 
     rake tarball
 
-For pure C++ / autotools packages:
+#### Pure C++ / Autotools Packages
 
     make package-local
 
 
+#### (Ruby Packages) Skip License Check
 
-Setting up IBS (Internal Build Service)
-=======================================
+Edit project toplevel Rakefile:
 
-Edit ~/.oscrc:
+    Yast::Tasks.configuration do |conf|
+      ...
+      conf.skip_license_check << /.*/
+    end
+
+
+## Working with OBS and IBS
+
+
+### Setting up IBS (Internal Build Service)
+
+Edit `~/.oscrc:`
 
 Add alias for OBS:
 
-    [https://api.opensuse.org]
-+   aliases = obs
-    user = shundhammer
-    pass = ...
+      [https://api.opensuse.org]
+    + aliases = obs
+      user = shundhammer
+      pass = ...
 
 
 Add new section for IBS:
@@ -218,8 +205,7 @@ source .zshrc / .bashrc:
 
 
 
-Commit libstorage or snapper
-============================
+## Submit libstorage or snapper
 
 Make sure to edit VERSION and write a change log entry:
 
@@ -253,8 +239,7 @@ or
 
 
 
-Build system links from OBS to IBS
-==================================
+## OBS to IBS Links
 
 libstorage in IBS is a link to libstorage in OBS.
 
@@ -262,9 +247,9 @@ libstorage in IBS is a link to libstorage in OBS.
     isc co Devel:YaST:Head/libstorage
     ls -1
 
-libstorage-2.25.35.tar.bz2
-libstorage.changes
-libstorage.spec
+      libstorage-2.25.35.tar.bz2
+      libstorage.changes
+      libstorage.spec
 
     isc up -u
     ls -1
@@ -273,27 +258,57 @@ libstorage.spec
 
     cat _link
 
-<link project="openSUSE.org:YaST:Head" package="libstorage">
-<patches>
-  <!-- <branch /> for a full copy, default case  -->
-  <!-- <apply name="patch" /> apply a patch on the source directory  -->
-  <!-- <topadd>%define build_with_feature_x 1</topadd> add a line on the top (spec file only) -->
-  <!-- <add name="file.patch" /> add a patch to be applied after %setup (spec file only) -->
-  <!-- <delete name="filename" /> delete a file -->
-</patches>
-</link>
+      <link project="openSUSE.org:YaST:Head" package="libstorage">
+      <patches>
+        <!-- <branch /> for a full copy, default case  -->
+        <!-- <apply name="patch" /> apply a patch on the source directory  -->
+        <!-- <topadd>%define build_with_feature_x 1</topadd> add a line on the top (spec file only) -->
+        <!-- <add name="file.patch" /> add a patch to be applied after %setup (spec file only) -->
+        <!-- <delete name="filename" /> delete a file -->
+      </patches>
+      </link>
 
     isc up -e
     ls -1
 
-libstorage-2.25.35.tar.bz2
-libstorage.changes
-libstorage.spec
+      libstorage-2.25.35.tar.bz2
+      libstorage.changes
+      libstorage.spec
 
 
 
-Commit libyui-qt-pkg etc.
-=========================
+--------------------------------------------------
+
+## Misc
+
+
+### Package Version Bump
+
+Once:
+
+    sudo ln -s /mounts/work /work
+
+Later:
+
+    bash
+    . /work/src/bin/.profile
+    vc
+
+
+### VNC viewer during Scrum videoconf:
+
+    vncviewer -shared dhcp114.suse.cz:1
+    PW: viewonly
+
+
+
+--------------------------------------------------
+
+## Unsorted
+
+
+### Commit libyui-qt-pkg etc.
+
 
     cd ...ibs...
     (copy tarball)
@@ -313,8 +328,7 @@ Commit libyui-qt-pkg etc.
     osc submitrequest devel:libraries:libyui libyui-qt-pkg
 
 
-Download built RPMs from IBS
-============================
+### Download built RPMs from IBS
 
     cd /space/shundhammer/rpms
 
@@ -329,30 +343,26 @@ For maintenance branches:
     isc getbinaries -d ~/space/rpms SUSE_SLE-11-SP1_Update x86_64
 
 
-Show my pending OBS submit requests
-===================================
+### Show my pending OBS submit requests
 
     osc request list --mine
 
     osc request list --mine -s all -D 14
 
 
-Show pending OBS submit requests for a specific package
-=======================================================
+### Show pending OBS submit requests for a specific package
 
     osc request list openSUSE:Factory libstorage
 
 
 
-Build CMake Project with /usr/bin prefix
-========================================
+### Build CMake Project with /usr/bin prefix
 
     cmake -DCMAKE_INSTALL_PREFIX=/usr/bin
 
 
 
-Make package for CMake projects
-===============================
+### Make package for CMake projects
 
 libyui-qt:
 
@@ -362,14 +372,13 @@ libyui-qt:
 
 -> tarball, spec file and changelog in build/package
 
-rake version:bump
+    rake version:bump
 
-rake osc:sr
+    rake osc:sr
 
 
 
-Check pkg-bindings
-==================
+### Check pkg-bindings
 
     irb
 
@@ -377,8 +386,7 @@ Check pkg-bindings
     Yast.import "Pkg"
 
 
-Fix Complaints about Missing libboost_* in inst-sys
-===================================================
+### Fix Complaints about Missing libboost_* in inst-sys
 
 - Use ssh installation
 
@@ -391,8 +399,7 @@ Fix Complaints about Missing libboost_* in inst-sys
     yast.ssh
 
 
-Packages Used in inst-sys
-=========================
+### Packages Used in inst-sys
 
     cat /.packages.root
     cat /.packages.*
@@ -402,40 +409,36 @@ Packages Used in inst-sys
 
 
 
-Debugging "extend" in the inst-sys
-==================================
+### Debugging "extend" in the inst-sys
 
-[11:23:06] <ancorgs> snwint: I'm debugging this in a s390x orthos machine
-           and "extend cracklib-dict-full.rpm" is returning "extend ok" but
-	   apparently doing nothing
-[11:23:17] <ancorgs> snwint: how can I debug?
-[11:23:56] <ancorgs> in x86 looks like the whole dictionary is actually
-           in inst-sys from the very beginning, so loading the extension is
-	   kinda pointless (not sure if it works or not)
-[11:23:57] <snwint> there's a log, I think in /var/log/extend
-[11:24:40] <snwint> you can also use 'extend -v'
-[11:25:12] <snwint>  /etc/instsys.parts (or so) contains the list of extensions
-[11:25:57] <snwint> if boot option debug=ignore helps, it's probably some
-           signature checking going wrong
+    [11:23:06] <ancorgs> snwint: I'm debugging this in a s390x orthos machine
+               and "extend cracklib-dict-full.rpm" is returning "extend ok" but
+    	   apparently doing nothing
+    [11:23:17] <ancorgs> snwint: how can I debug?
+    [11:23:56] <ancorgs> in x86 looks like the whole dictionary is actually
+               in inst-sys from the very beginning, so loading the extension is
+    	   kinda pointless (not sure if it works or not)
+    [11:23:57] <snwint> there's a log, I think in /var/log/extend
+    [11:24:40] <snwint> you can also use 'extend -v'
+    [11:25:12] <snwint>  /etc/instsys.parts (or so) contains the list of extensions
+    [11:25:57] <snwint> if boot option debug=ignore helps, it's probably some
+               signature checking going wrong
 
 
-Check Ruby Syntax
-=================
+### Check Ruby Syntax
 
     rake check:syntax
 
 See also .travis.yml in project toplevel dir
 
 
-Commit one patch at a time in Git
-=================================
+### Commit one patch at a time in Git
 
     git add -p
 
 
 
-Submit to older release (SLES-12-GA etc.)
-=========================================
+### Submit to older release (SLES-12-GA etc.)
 
 - check out branch for that release with git
 
@@ -446,20 +449,16 @@ Submit to older release (SLES-12-GA etc.)
     rake osc:sr
 
 
-Testing Multipath
-=================
+### Testing Multipath
 
-qemu-system-x86_64 -enable-kvm -display sdl -device cirrus-vga -m 1024
--boot d -drive
-file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
-file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
-file=/usr/local/src/ISOs/SLES-11-SP4-DVD-x86_64-GM-DVD1.iso,media=cdrom,format=raw
--redir tcp:10022::22
+    qemu-system-x86_64 -enable-kvm -display sdl -device cirrus-vga -m 1024 -boot d -drive
+    file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
+    file=/home/test-1.qcow2,media=disk,format=raw,serial='test70' -drive
+    file=/usr/local/src/ISOs/SLES-11-SP4-DVD-x86_64-GM-DVD1.iso,media=cdrom,format=raw -redir tcp:10022::22
 
 
 
-Workflow for Testing libstorage in inst-sys
-===========================================
+## Workflow for Testing libstorage in inst-sys
 
 - Create tarball:
 
@@ -519,8 +518,7 @@ Workflow for Testing libstorage in inst-sys
 
 
 
-Testing Multiversion Packages
-=============================
+### Testing Multiversion Packages
 
     sudo vi /etc/zypp/zypp.conf
 
@@ -529,10 +527,10 @@ search for "multiversion" and change that line to:
     multiversion = provides:multiversion(kernel), provides:multiversion(skelcd)
 
 
-UEFI in QEMU
-============
+### UEFI in QEMU
 
-Install packages
+Install packages:
+
 - ovmf
 - qemu-ovmf-x86_64
 
@@ -550,20 +548,18 @@ For virt-install:
       $EXTRA_ARGS
 
 
-Restart OBS checkout service
-============================
+###Restart OBS checkout service
 
     osc service rr
 
 
-Run YaST Ruby script from the command line
-==========================================
+### Run YaST Ruby script from the command line
 
     ruby -ryast -e 'puts Yast::Builtins.xy()'
 
 
-Build for Debian
-================
+
+### Build for Debian
 
     osc build mypackage.dsc
 
@@ -579,14 +575,13 @@ Nice and shiny:
 
 
 
-Resurrect old LVM to get y2logs
+### Resurrect old LVM to get y2logs
 ===============================
 
     vgchange -ay
 
 
-Rake
-====
+### Rake
 
 Show targets:
 
@@ -601,19 +596,17 @@ Verbose ("trace"):
     rake -t <target>
 
 
-Jenkins
-=======
+### Jenkins
 
-    Wiki:     https://wiki.microfocus.net/index.php/YaST/jenkins
-    Server:   https://ci.suse.de/view/YaST/
-    Snapper:  https://ci.suse.de/job/snapper-master/
+- Wiki:     https://wiki.microfocus.net/index.php/YaST/jenkins
+- Server:   https://ci.suse.de/view/YaST/
+- Snapper:  https://ci.suse.de/job/snapper-master/
 
 Jenkins is polling the GitHub repo with
 
     git -c core.askpass=true ls-remote -h https://github.com/openSUSE/snapper.git
 
-then checks out the latest revision
-then does
+then checks out the latest revision, then does
 
     rake osc:sr
     make -f Makefile.ci package
@@ -642,8 +635,7 @@ Fetch config:
     https://ci.suse.de/view/YaST/job/yast-snapper-master/config.xml
 
 
-RSpec
-=====
+### RSpec
 
 Verbose and colorized output:
 
@@ -656,8 +648,7 @@ add
     --color
 
 
-Disable RSpec tests
-===================
+### Disable RSpec tests
 
 Prefix "it" or "describe" with "x"
 
@@ -678,8 +669,7 @@ to
 
 
 
-Find out maintained versions
-============================
+### Find out maintained versions
 
     osc maintained libstorage
     -> openSUSE ...
@@ -694,8 +684,7 @@ Find out maintained versions
 
 
 
-Security updates
-================
+### Security updates
 
     isc mbranch --checkout libstorage
     isc mbranch --checkout yast2-storage
@@ -706,8 +695,7 @@ For each subdirectory there:
 
 
 
-QEMU PPC64
-==========
+## QEMU PPC64
 
     qemu-system-ppc64   \
         -cpu POWER8     \
@@ -718,8 +706,7 @@ QEMU PPC64
         -drive file=/wrk1/iso/SLE-12-....iso,media=cdrom,format=raw,readonly
 
 
-Merge feature branch back to master
-===================================
+## Merge feature branch back to master
 
 - Start from master and create a new branch for merging:
 
@@ -745,3 +732,5 @@ Merge feature branch back to master
 - Have pull request reviewed
 
 - Merge pull request
+
+
