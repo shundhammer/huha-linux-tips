@@ -14,7 +14,7 @@ See [doc](doc/) directory here.
 
 - [Ubuntu tips](doc/ubuntu-tips.md)
 - [SUSE tips](doc/suse-tips.md)
-- [YaST development tips](doc/yast-devel-tips.txt)
+- [YaST development tips](doc/yast-devel-tips.md)
 
 
 # License
