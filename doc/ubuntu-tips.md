@@ -512,8 +512,7 @@ Don't forget to activate `libdvdcss`:
 _EtherApe_ is a GUI to show network connections in a graph with a line for each
 connection that corresponds to the amount of traffic.
 
-![Etherape screenshot]
-(http://etherape.sourceforge.net/images/v0.9.3.png)
+![Etherape screenshot](http://etherape.sourceforge.net/images/v0.9.3.png)
 
 
 Install:
@@ -524,3 +523,90 @@ Using:
 
     xhost +
     sudo etherape
+
+
+### Set up Automounter
+
+Install:
+
+    sudo apt-get install autofs
+
+Edit auto.master:
+
+    sudo vi /etc/auto.master
+
+Add a line for a new map file:
+
+    /nas  /etc/auto.nas  --timeout=180
+
+The first field (`/nas`)is the parent directory for the mount points,
+the second field is the name of the new map file.
+`--timeout` is optional.
+
+Create the new map file:
+
+    sudo vi /etc/auto.nas
+
+    work  -fstype=nfs,soft,intr  nas:/work
+    sh    -fstype=nfs,soft,intr  nas:/sh
+
+Each line describes one mount. The first field is the mount point below the
+parent directory specified in the master file, i.e. in this example it will
+become `/nas/work` and `/nas/sh`.
+
+The optional second field are the mount options. The first mount option must
+start with a `-` to identify the field as mount options.
+
+For Nfs4, use
+
+    -fstype=nfs4
+
+The last field is the server and the exported mount.
+
+
+#### Testing and Debugging
+
+Test:
+
+    ls -l /nas/work
+
+This should already mount the NFS directory and show content.
+The `mount` command should also show the new automount map:
+
+    mount | grep autofs
+
+    /etc/auto.nas on /nas type autofs (rw,relatime,...
+
+Discover mounts on the server (here: `nas`) with
+
+    showmount -e nas
+
+To test what the automounter does, shut it down:
+Ubuntu 16.04 and later with systemd:
+
+    sudo systemctl stop   autofs.service
+    sudo systemctl status autofs.service
+
+Earlier Ubuntu versions with upstart:
+
+    sudo /etc/init.d/autofs stop
+
+Open a new shell and restart it in the foreground (!) with verbose and debug
+output:
+
+    sudo automount -f -v -d
+
+Watch the output while you try to access the NFS mounts in another shell:
+
+    ls -l /nas/work
+
+When everything works well, don't forget to restart the automounter:
+Ubuntu 16.04 and later with systemd:
+
+    sudo systemctl stop   autofs.service
+    sudo systemctl status autofs.service
+
+Earlier Ubuntu versions with upstart:
+
+    sudo /etc/init.d/autofs stop
+
