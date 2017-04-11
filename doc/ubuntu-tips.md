@@ -612,10 +612,10 @@ Watch the output while you try to access the NFS mounts in another shell:
 When everything works well, don't forget to restart the automounter:
 Ubuntu 16.04 and later with systemd:
 
-    sudo systemctl stop   autofs.service
+    sudo systemctl start  autofs.service
     sudo systemctl status autofs.service
 
 Earlier Ubuntu versions with upstart:
 
-    sudo /etc/init.d/autofs stop
+    sudo /etc/init.d/autofs start
 
