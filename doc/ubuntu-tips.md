@@ -32,6 +32,15 @@ Add line (at the end of the file - AFTER any 'include') with:
     myusername  ALL=(ALL) NOPASSWD: ALL
 
 
+### Don't log every `sudo` command:
+
+    sudo visudo
+
+Add a line
+
+    Defaults !syslog
+
+
 ### Set a password for root to have a fallback if your user can't log in any more:
 
     sudo passwd root
