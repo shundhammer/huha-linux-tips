@@ -600,8 +600,8 @@ Earlier Ubuntu versions with upstart:
 
     sudo /etc/init.d/autofs stop
 
-Open a new shell and restart it in the foreground (!) with verbose and debug
-output:
+Open a new shell and restart the automounter in the foreground (!) with verbose
+and debug output:
 
     sudo automount -f -v -d
 
