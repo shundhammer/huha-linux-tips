@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Make apt shut up about available updates, wanting reboot, unsuccessful
+# partial updates etc.
+#
+# Author:  Stefan Hundhammer <Stefan.Hundhammer@gmx.de>
+# License: GPL V2
+
+sudo rm -vf /var/lib/update-notifier/updates-available
+sudo rm -vf /var/run/reboot-required
+sudo rm -vf /var/lib/update-notifier/user.d/data-downloads-failed-permanently
