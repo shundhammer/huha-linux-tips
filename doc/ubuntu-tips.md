@@ -40,7 +40,7 @@ Add a line
     Defaults !syslog
 
 
-### Set a password for root to have a fallback if your user can't log in any more:
+### Set a password for root to have a fallback if your user can't log in anymore:
 
     sudo passwd root
 
@@ -117,7 +117,6 @@ Reference:
 
 - http://askubuntu.com/questions/127851/change-boot-screen-resolution
 - http://www.ubuntu-forum.de/artikel/48665/auflösung-der-konsole-ändern.html
-- http://www.intdblog.com/2009/09/grub-2-graphical-boot-tips-to-set.html
 
 
 ### Fix Plymouth boot screen after installing NVidia drivers:
