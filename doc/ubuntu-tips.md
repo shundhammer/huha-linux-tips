@@ -11,7 +11,6 @@ License: GNU Free Documentation License
 ### Install bare minimum tools
 
     sudo apt-get install vim ssh aptitude synaptic muon
-    sudo apt-get install aptitude synaptic muon
     sudo apt-get install zsh mmv emacs gnuserv
     sudo apt-get install exif exiftran exiftags jhead id3v2
     sudo apt-get install vlc mplayer
