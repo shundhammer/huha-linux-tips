@@ -30,42 +30,42 @@ Add `?w=1` to URL:
 
 - Start VM:
 
-    xhost +
-    virt-manager
+      xhost +
+      virt-manager
 
 - Create new VM
 - Boot VM - use kernel parameter
 
-    ssh=1
+      ssh=1
 
 - Qt installation: In xterm:
 
-    ssh -X root@192.168...
-    yast.ssh
+      ssh -X root@192.168...
+      yast.ssh
 
 - NCurses installation: In xterm:
 
-    ssh root@192.168...
-    yast.ssh
+      ssh root@192.168...
+      yast.ssh
 
 - Send to background:
-    ^Z
-    bg
+      ^Z
+      bg
 
 - Bind-mount files to edit:
 
-    cd /tmp
-    mkdir work
-    cp /usr/share/YaST2/modules/StorageProposal.rb .
-    mount -o bind StorageProposal.rb /usr/share/YaST2/modules/StorageProposal.rb
+      cd /tmp
+      mkdir work
+      cp /usr/share/YaST2/modules/StorageProposal.rb .
+      mount -o bind StorageProposal.rb /usr/share/YaST2/modules/StorageProposal.rb
 
 - Preferred way: Edit on host PC and copy file into VM:
 
-    scp StorageProposal.rb root@192.168..../tmp/work/
+      scp StorageProposal.rb root@192.168..../tmp/work/
 
 - Alternative: After completion: Copy changed files out of VM: (don't forget!)
 
-    scp /tmp/work/StorageProposal.rb 192.168.122.1:/tmp
+      scp /tmp/work/StorageProposal.rb 192.168.122.1:/tmp
 
 
 ## Updated files in /y2update
@@ -462,19 +462,19 @@ See also .travis.yml in project toplevel dir
 
 - Create tarball:
 
-    cd /space/shundhammer/src/yast/libstorage
+      cd /space/shundhammer/src/yast/libstorage
 
-    make package-local
+      make package-local
 
 
 - Check tarball into IBS:
 
-    cd /space/shundhammer/ibs/home:shundhammer:storage/libstorage
+      cd /space/shundhammer/ibs/home:shundhammer:storage/libstorage
 
-    rsync  -av --exclude .gitignore /space/shundhammer/src/yast/libstorage/package/ .
-    isc ar
-    isc ci -n
-    isc rebuild
+      rsync  -av --exclude .gitignore /space/shundhammer/src/yast/libstorage/package/ .
+      isc ar
+      isc ci -n
+      isc rebuild
 
 
 - Wait for build in IBS to finish
@@ -482,49 +482,49 @@ See also .travis.yml in project toplevel dir
 
 - Fetch RPMs from IBS:
 
-    cd /space/shundhammer/rpms
+      cd /space/shundhammer/rpms
 
-    isc getbinaries -d . home:shundhammer:storage libstorage SLE_12_SP1 x86_64
+      isc getbinaries -d . home:shundhammer:storage libstorage SLE_12_SP1 x86_64
 
 - Create DUD:
 
-    mkdud  -c ../iso/verbose-libstorage.dud --obs-keys --dist sles12 *.rpm
+      mkdud  -c ../iso/verbose-libstorage.dud --obs-keys --dist sles12 *.rpm
 
 
 - Integrate DUD into ISO:
 
-    cd /space/iso
+      cd /space/iso
 
-    sudo mksusecd --create SLE-12-SP1-ZZZ-HuHa.iso --initrd \
-        verbose-libstorage.dud \
-	SLE-12-SP1-Server-DVD-x86_64-Beta2-DVD1.iso
+      sudo mksusecd --create SLE-12-SP1-ZZZ-HuHa.iso --initrd \
+           verbose-libstorage.dud \
+           SLE-12-SP1-Server-DVD-x86_64-Beta2-DVD1.iso
 
 
 - Start installation VM:
 
-    sudo virt-install-sles
+      sudo virt-install-sles
 
 - Start installation in ssh session:
 
-    ssh -X root@192.168.100.230
-    yast.ssh
+      ssh -X root@192.168.100.230
+      yast.ssh
 
 
 - Watch log:
 
-    ssh -X root@192.168.100.230
-    cd /var/log/YaST2
-    tail -F y2log
+      ssh -X root@192.168.100.230
+      cd /var/log/YaST2
+      tail -F y2log
 
 
 
 ### Testing Multiversion Packages
 
-    sudo vi /etc/zypp/zypp.conf
+      sudo vi /etc/zypp/zypp.conf
 
 search for "multiversion" and change that line to:
-
-    multiversion = provides:multiversion(kernel), provides:multiversion(skelcd)
+  
+      multiversion = provides:multiversion(kernel), provides:multiversion(skelcd)
 
 
 ### UEFI in QEMU
@@ -548,7 +548,7 @@ For virt-install:
       $EXTRA_ARGS
 
 
-###Restart OBS checkout service
+### Restart OBS checkout service
 
     osc service rr
 
@@ -734,3 +734,59 @@ For each subdirectory there:
 - Merge pull request
 
 
+## Debug Travis-only Failures
+
+See also http://yastgithubio.readthedocs.io/en/latest/travis-integration/#running-the-build-locally
+
+### Preparation
+
+- If not installed, install Docker:
+
+      sudo zypper in docker
+
+- Make sure the Docker service is running:
+
+      sudo systemctl status docker.service
+      sudo systemctl start  docker.service
+
+- Trigger rebuilding the Docker base image from the internal Jenkins instance:
+
+  https://ci.opensuse.org/view/Yast/job/docker-trigger-yastdevel-ruby-latest/
+
+- Get the Docker base image. For SLE-12 SP3:
+
+      sudo docker pull yastdevel/ruby:sle12-sp3
+
+  See also
+  - https://hub.docker.com/u/yastdevel/
+  - https://hub.docker.com/r/yastdevel/ruby/builds/
+
+
+### Usage
+
+- Build the Docker image for the current project:
+
+      cd src/yast/$myproject
+      sudo docker build -t yast-nfs-client-image .
+
+  (see also the `Dockerfile` in that directory what actually happens)
+
+- Execute locally what Travis would do:
+
+      sudo docker run -it yast-nfs-client-image yast-travis-ruby
+
+  (see also `.travis.yml` in that directory)
+
+- If it fails, just start a shell in Docker and execute the commands manually:
+
+      sudo docker run -it yast-nfs-client-image bash
+      yast-travis-ruby
+
+- Install `vi` in the Docker container if needed:
+
+      zypper in vim
+
+
+More information about the YaST Docker images:
+
+https://github.com/yast/docker-yast-ruby
