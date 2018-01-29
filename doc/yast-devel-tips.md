@@ -773,7 +773,7 @@ See also http://yastgithubio.readthedocs.io/en/latest/travis-integration/#runnin
 
 - Execute locally what Travis would do:
 
-      sudo docker run -it yast-nfs-client-image yast-travis-ruby
+      sudo docker run -it --rm yast-nfs-client-image yast-travis-ruby
 
   (see also `.travis.yml` in that directory)
 
