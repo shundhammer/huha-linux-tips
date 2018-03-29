@@ -172,7 +172,7 @@ Add
 
 ### Change Thunderbird "Trash" folder
 
-    vi ~/.thunderbird/*.default
+    cd ~/.thunderbird/*.default
     vi prefs.js
 
 Add for the correct (!) account:
