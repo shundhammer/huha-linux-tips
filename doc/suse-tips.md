@@ -56,6 +56,95 @@ Add kernel command parameter:
 
 ----
 
+## X11 / Desktop
+
+### Get Rid of Ever-Growing ~/.xsession-errors
+
+#### Symptom
+
+The `.xsession-errors` file in your home directory keeps growing and growing
+(it can easily exceed 150+ MB).
+
+### Background Information
+
+Most of that are pointless Gtk+ errors that you can't do anything about anyway;
+that toolkit just appears to be changing all the time with application
+developers never being able to catch up, so it clutters stderr with all kinds
+of errors and warnings which for X11 applications end up in
+`~/.xsession-errors`, cluttering your home directory and filling up your disk.
+
+
+### Quick Fix
+
+    echo >~/.xsession-errors
+
+**Do not** just remove it:
+
+    rm ~/.xsession-errors     # WRONG!
+
+This would still keep the disk space allocated because active processes (your X
+server!) are still keeping that file open, so it would just disappear from the
+directory, but the disk blocks are only freed once the last process keeping it
+open exits. If you keep your X11 session running, this will not have any
+effect.
+
+Don't worry if shortly after the `echo >~/.xsession-errors` command it keeps
+coming back; it is now just a _sparse file_ that allocates only disk space for
+new messages, i.e. whenever the next message is written to the file, it appends
+to the file, but it leaves the disk blocks at the start of the file untouched
+and unallocated.
+
+It is sill most annoying, though.
+
+
+### More Permanent Fix
+
+    cd /etc/X11/xdm
+    sudo vi Xsesssion
+
+- Locate that block
+
+    #
+    # Redirect errors to the standard user log files.
+    #
+
+    for errfile in      "${HOME}/.xsession-errors" \
+                "${TMPDIR:-/tmp}/xerr-${USER}-${DISPLAY}"
+    do
+        stderr=$(readlink -fs /dev/stderr)
+    ...
+    ...
+    ...
+    done
+    unset tmpfile errfile
+
+The safest thing is to comment that block out completely.
+After it, add
+
+    exec >/dev/null
+    exec 2>/dev/null
+
+This just redirects both stdout and stderr of that process (the X session) to
+/dev/null without cluttering your home directory.
+
+- Restart X11.
+
+- You can now safely delete the old .xsession-error file(s):
+
+    rm ~/.xsession-error*
+
+They should not come back.
+
+Since /etc/X11/xdm is a config file, the change should survive package updates.
+That file is not only used by _XDM_, but also by _LightDM_ (tested and verified).
+
+Not sure if it also works with _KDM_ and _GDM_ (please let me know), but if
+not, they should have an equivalent file where you can change the error log
+file.
+
+
+----
+
 ## Package management
 
 ### Allow vendor change in Zypper
