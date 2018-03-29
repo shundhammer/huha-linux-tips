@@ -65,7 +65,7 @@ Add kernel command parameter:
 The `.xsession-errors` file in your home directory keeps growing and growing
 (it can easily exceed 150+ MB).
 
-### Background Information
+#### Background Information
 
 Most of that are pointless Gtk+ errors that you can't do anything about anyway;
 that toolkit just appears to be changing all the time with application
@@ -74,7 +74,7 @@ of errors and warnings which for X11 applications end up in
 `~/.xsession-errors`, cluttering your home directory and filling up your disk.
 
 
-### Quick Fix
+#### Quick Fix
 
     echo >~/.xsession-errors
 
@@ -97,26 +97,29 @@ and unallocated.
 It is sill most annoying, though.
 
 
-### More Permanent Fix
+#### More Permanent Fix
 
     cd /etc/X11/xdm
     sudo vi Xsesssion
 
 - Locate that block
 
-    #
-    # Redirect errors to the standard user log files.
-    #
+```bash
+#
+# Redirect errors to the standard user log files.
+#
 
-    for errfile in      "${HOME}/.xsession-errors" \
-                "${TMPDIR:-/tmp}/xerr-${USER}-${DISPLAY}"
-    do
-        stderr=$(readlink -fs /dev/stderr)
+for errfile in "${HOME}/.xsession-errors" \
+               "${TMPDIR:-/tmp}/xerr-${USER}-${DISPLAY}"
+do
+    stderr=$(readlink -fs /dev/stderr)
     ...
     ...
     ...
-    done
-    unset tmpfile errfile
+done
+unset tmpfile errfile
+```
+
 
 The safest thing is to comment that block out completely.
 After it, add
@@ -125,18 +128,21 @@ After it, add
     exec 2>/dev/null
 
 This just redirects both stdout and stderr of that process (the X session) to
-/dev/null without cluttering your home directory.
+`/dev/null` without cluttering your home directory.
 
 - Restart X11.
 
-- You can now safely delete the old .xsession-error file(s):
+- You can now safely delete the old `.xsession-error` file(s):
 
-    rm ~/.xsession-error*
+```
+rm ~/.xsession-error*
+```
 
 They should not come back.
 
-Since /etc/X11/xdm is a config file, the change should survive package updates.
-That file is not only used by _XDM_, but also by _LightDM_ (tested and verified).
+Since `/etc/X11/xdm/Xsession` is a config file, the change should survive
+package updates.  That file is not only used by _XDM_, but also by _LightDM_
+(tested and verified).
 
 Not sure if it also works with _KDM_ and _GDM_ (please let me know), but if
 not, they should have an equivalent file where you can change the error log
