@@ -94,7 +94,7 @@ new messages, i.e. whenever the next message is written to the file, it appends
 to the file, but it leaves the disk blocks at the start of the file untouched
 and unallocated.
 
-It is sill most annoying, though.
+It is still most annoying, though.
 
 
 #### More Permanent Fix
