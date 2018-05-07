@@ -133,6 +133,14 @@ or
 	 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20150525-Media.iso
 
 
+### Integrating RPMs directly into an ISO
+
+    sudo mksusecd --create openSUSE-Tumbleweed-HuHa-x86_64.iso \
+         --initrd yast2-storage.rpm \
+         --initrd yast2-installation.rpm \
+	 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20150525-Media.iso
+
+
 ### Create a minimal ISO
 
     mksusecd --micro ...
