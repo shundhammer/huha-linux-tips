@@ -140,6 +140,9 @@ or
          --initrd yast2-installation.rpm \
 	 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20150525-Media.iso
 
+**Caveat:** _This works only for the inst-sys; those RPMs will not be installed
+to the target._
+
 
 ### Create a minimal ISO
 
