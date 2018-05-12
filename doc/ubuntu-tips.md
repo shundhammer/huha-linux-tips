@@ -166,7 +166,20 @@ Add to `/etc/rc.local`:
     echo shutdown >/sys/power/disk
 
 
+### Reduce insane systemd timeout from 30 sec to reasonable value
 
+    cd /etc/systemd
+    sudo vi system.conf
+
+Uncomment and change
+
+    DefaultTimeoutStopSec=10s
+
+?? The same values are also in user.conf; maybe change them there as well.
+
+See also
+
+  https://unix.stackexchange.com/questions/227017/how-to-change-systemd-service-timeout-value
 
 -----
 
