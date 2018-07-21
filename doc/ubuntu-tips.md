@@ -52,6 +52,14 @@ Add a line
 Hit [Return] 5 times until the "enable Ctrl-Alt-Backspace" dialog appears.
 
 
+### Disable forced NumLock
+
+_However came up with this brain-dead idea to force this to "on" should be
+shot!_
+
+    sudo apt-get remove numlockx
+
+
 ### Problem with ReiserFS partitions at boot time:
 
 Maybe fsck.reiserfs missing
