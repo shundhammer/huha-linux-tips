@@ -294,6 +294,25 @@ then
     akonadictl start
 
 
+### Fix: Evince (the PDF reader) segfaults with weird "permission denied" problems
+
+_Experienced with Xubuntu 18.04 LTS Bionic Beaver_
+
+Uninstall apparmor.
+
+    sudo apt-get remove --purge apparmor
+
+Reboot to make sure it isn't still active in the running system:
+
+    sudo reboot
+
+It took me quite a while to figure that one out. It might just be an apparmor
+profile that isn't set up 100% correctly, but seriously, **I don't give a
+shit**. It was yet another denial of service by this "security enhancement"
+tool. Why anybody would bother with this piece of ~~shit~~ software is beyond
+me; it never did anything for me, only just against me. Good riddance.
+
+
 ### Change Gwenview fullscreen background to black instead of dirty brown:
 
     sudo apt-get install imagemagick
