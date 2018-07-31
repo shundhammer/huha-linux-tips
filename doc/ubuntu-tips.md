@@ -477,11 +477,6 @@ If that doesn't work:
 ## Applications
 
 
-### Force MythTV to prompt for language again:
-
-    mythfrontend -p
-
-
 ### Fix Emacs complains about:
 
     ** (emacs:6834): WARNING **: Couldn't register with accessibility bus: Did not
