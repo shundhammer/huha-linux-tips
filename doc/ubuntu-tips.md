@@ -510,7 +510,7 @@ Tab "General", "Next input method"; click on "...", then "Delete".
 What fucking moron came up with such a brain-dead idea?
 
 Seriously: It is already hard enough to advocate a Linux desktop in the sorry
-state that it is. We surely don't need anybody fucking around with it every
+state it's in. We surely don't need anybody fucking around with it every
 couple of weeks to make it even harder to use. And breaking the most basic and
 single most important key combination of one of the oldest and most widely-used
 Linux editors like Emacs is adding insult to injury.
