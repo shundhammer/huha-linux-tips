@@ -70,15 +70,17 @@ Add `?w=1` to URL:
 
 ## Updated files in /y2update
 
-After ssh'ing to the machine to be installed:
+Prepare /y2update directory on the target machine (e999 here):
 
+    ssh root@e999
     mkdir /y2update
-    cd /y2update
 
-    mkdir modules
+On the development machine, the directory structure in each project below src/
+should match the directory structure in /usr/share/YaST2, so you can simply
+recursively copy that entire tree to the target machine:
 
-From the remote machine, copy the changed script files to /y2update/...
-/y2update is used like /usr/share/YaST2, but with higher priority.
+    cd yast-myproject
+    scp -r src/* root@e999:/y2update
 
 
 ## DUDs and ISOs
@@ -534,7 +536,7 @@ See also .travis.yml in project toplevel dir
       sudo vi /etc/zypp/zypp.conf
 
 search for "multiversion" and change that line to:
-  
+
       multiversion = provides:multiversion(kernel), provides:multiversion(skelcd)
 
 
