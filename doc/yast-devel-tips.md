@@ -251,6 +251,20 @@ or
     isc request show 4711
 
 
+## Prevent Status _blocked_ in OBS
+
+If a package cannot be built because of dependent packages that are in the
+process of building, i.e. OBS reports status _blocked_:
+
+Edit the meta data for that project to change to a less restrictive blocking
+mode.
+
+Web interface: "Advanced" -> "Meta"
+
+`<repository name="REPO_NAME" `**`block="local">`**
+
+See also https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.build_scheduling_and_dispatching.html#id18770
+
 
 ## OBS to IBS Links
 
