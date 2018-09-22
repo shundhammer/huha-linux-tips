@@ -208,6 +208,19 @@ Create `~/.xprofile` with
     vi ~/.config/user-dir.dirs
 
 
+### Set font sizes of Qt (5.x) programs in Xfce or GNOME
+
+Install "qt5ct", set the environment up to use it and set fonts with it:
+
+    sudo apt-get install qt5ct
+    export QT_QPA_PLATFORMTHEME=qt5ct
+    qt5ct
+
+Restart any running Qt 5.x programs so they are using that environment
+variable. They should even change their settings on the fly when you hit the
+"apply" button in qt5ct.
+
+
 ### Disable X screensaver completely:
 
     cat noscreensaver
