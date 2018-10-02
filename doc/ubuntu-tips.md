@@ -54,7 +54,7 @@ Hit [Return] 5 times until the "enable Ctrl-Alt-Backspace" dialog appears.
 
 ### Disable forced NumLock
 
-_Whoever came up with this brain-dead idea to force this to "on" should be
+_Whoever came up with the brain-dead idea to force this to "on" should be
 shot!_
 
     sudo apt-get remove numlockx
