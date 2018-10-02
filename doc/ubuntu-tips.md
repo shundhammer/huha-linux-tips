@@ -505,6 +505,50 @@ single most important key combination of one of the oldest and most widely-used
 Linux editors like Emacs is adding insult to injury.
 
 
+### Emacs keeps marking regions in bright yellow, and it won't ever go away
+
+This is the "secondary selection", a remnant of the very early day of the X
+Window System, going back to the early nineties (i.e. the last millenium). This
+is obsolete and braindead and just a PITA. It was of little use back in the
+days of xterm, xload and xclock, and it is completely useless in this day and
+age of KDE, GNOME, Xfce. Why after so many years somebody decided to enable
+that by default is beyond me; it shows a complete disconnect from the user
+base.
+
+I have been using Emacs since 1992 or so, and I had never come across this -
+until two years ago or so. Suddenly, sometimes for seemingly no reason at all,
+I got blocks of text highlighted in bright yellow, and there was no way to get
+it back to normal other than restarting Emacs. What a PITA. And for the life of
+me I could not find out what was going on and how to disable it.
+
+Emacs uses mouse operations in combination with the Meta key for that secondary
+selection. Normally, window managers tend to eat those key combinations:
+Alt-drag-mouse-1 for moving windows around, Alt-drag-mouse-3 for resizing them.
+
+I am not sure what other keys also cause this; some genius might have found one
+of those other completely superfluous keys on the keyboard (some of the Windows
+keys?) to be "useful" for that, thus breaking my favourite editor.
+
+May he rot in hell forevermore. May a thousand camels crap on his grave.
+
+Anyway, here is how to get rid of it: Add to one of your Emacs startup files
+(e.g. `~/.emacs`) those lines:
+
+    (global-set-key [M-mouse-1]      nil )
+    (global-set-key [M-drag-mouse-1] nil )
+    (global-set-key [M-down-mouse-1] nil )
+    (global-set-key [M-mouse-2]      nil )
+    (global-set-key [M-mouse-3]      nil )
+
+This simply undefines those completely braindead key combinations.
+
+If you have an .elc counterpart (a byte-compiled version) of that file, don't
+forget to byte-compile it (`M-x byte-compile-file`).
+
+See also
+
+  https://emacs.stackexchange.com/questions/8225/clear-secondary-selection-without-using-mouse
+
 
 ### Fix: Evince (the PDF reader) segfaults with weird "permission denied" problems
 
