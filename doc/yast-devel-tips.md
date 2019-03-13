@@ -388,21 +388,24 @@ For maintenance branches:
     cmake -DCMAKE_INSTALL_PREFIX=/usr/bin
 
 
-
-### Make package for CMake projects
-
-libyui-qt:
-
-    make -f Makefile.cvs
-    cd build
-    make srcpackage
-
--> tarball, spec file and changelog in build/package
+### CMake-based YaST projects
 
     rake version:bump
 
+    rake tarball
+
     rake osc:sr
 
+#### All YaST repos:
+
+Make sure to install `ruby2.6-rubygem-yast-rake`
+
+(replace 2.6 with the current Ruby version)
+
+
+#### libyui-qt* repos:
+
+Make sure to install `ruby-2.6-rubygem-libyui-rake`
 
 
 ### Check pkg-bindings
