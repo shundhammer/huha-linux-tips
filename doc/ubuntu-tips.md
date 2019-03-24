@@ -328,6 +328,17 @@ which can easily be restored.
 ## Package management
 
 
+### Find out what packages are installed:
+
+    dpkg-query -f '${Package} ${db:Status-Want}\n' | grep install
+
+with pattern:
+
+    dpkg-query -f '${Package} ${db:Status-Want}\n' --show "*xfce4*" | grep install | sed -e 's/ install//'
+
+(see `man pkg-query` and then search _showformat_ for more variables)
+
+
 ### Find fastest Ubuntu mirror:
 
 - Start `muon`
