@@ -40,6 +40,16 @@ Add a line
     Defaults !syslog
 
 
+### Keep the shell environment during `sudo`
+
+    sudo visudo
+
+Locate the line with `env_reset`
+
+    Defaults    !env_reset
+
+
+
 ### Set a password for root to have a fallback if your user can't log in anymore:
 
     sudo passwd root

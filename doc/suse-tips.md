@@ -19,6 +19,9 @@ Add line (at the end of the file - AFTER any 'include') with:
 
     myusername  ALL=(ALL) NOPASSWD: ALL
 
+To keep the shell environment: Locate the line with `env_reset`
+
+    Defaults    !env_reset
 
 
 
