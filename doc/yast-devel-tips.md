@@ -820,3 +820,23 @@ See also http://yastgithubio.readthedocs.io/en/latest/travis-integration/#runnin
 More information about the YaST Docker images:
 
 https://github.com/yast/docker-yast-ruby
+
+
+## Debugging yast-registration
+
+Fake a SLES product:
+
+    su
+    FAKE_BASE_PRODUCT=1 yast2 scc
+
+_Just using "sudo" doesn't work because it will remove the variable from the
+environment immediately!_
+
+***This will add SLES repos to the system;** you will have to remove them
+afterwards.
+
+Check with
+
+    sudo zypper lr | grep SLE
+
+
