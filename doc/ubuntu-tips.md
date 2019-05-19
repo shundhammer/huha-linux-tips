@@ -485,6 +485,12 @@ If that doesn't work:
     sudo reboot
 
 
+### Selectively Disable Meltdown/Spectre Kernel Patches
+
+https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown/MitigationControls
+https://askubuntu.com/questions/991874/how-to-disable-page-table-isolation-to-regain-performance-lost-due-to-intel-cpu
+https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html
+
 
 
 -----
