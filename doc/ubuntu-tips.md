@@ -321,7 +321,7 @@ then
 
     sudo apt-get install imagemagick
 
-    cd /usr/share/kde4/apps/gwenview/images
+    cd /usr/share/gwenview/images
     sudo mv background.png background-bullshit.png
     sudo convert -size 256x256 xc:black black-background.png
     sudo ln -s black-background.png background.png
