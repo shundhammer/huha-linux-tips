@@ -491,6 +491,14 @@ https://wiki.ubuntu.com/SecurityTeam/KnowledgeBase/SpectreAndMeltdown/Mitigation
 https://askubuntu.com/questions/991874/how-to-disable-page-table-isolation-to-regain-performance-lost-due-to-intel-cpu
 https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html
 
+Disable all (**CAUTION!**):
+
+    sudo vi /etc/default/grub
+
+      GRUB_CMDLINE_LINUX_DEFAULT="... pti=off spectre_v2=off mds=off"
+
+    sudo update-grub
+    sudo reboot
 
 
 -----
