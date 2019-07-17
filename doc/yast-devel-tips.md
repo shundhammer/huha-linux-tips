@@ -146,7 +146,17 @@ or
 to the target._
 
 
-### Create a minimal ISO
+### Using an Updated linuxrc Package
+
+Do **not** put the linuxrc.rpm into a DUD; specify it explicitly at the
+`mksusecd` command line:
+
+    sudo mksusecd --micro --create SLE-12-SP5-ZZZ-HuHa.iso \
+        --initrd ../rpms/linuxrc-5.1.14.2-4.1.x86_64.rpm \
+        SLE-12-SP5-Server-DVD-x86_64-Build0229-Media1.iso
+
+
+### Creating a minimal ISO
 
     mksusecd --micro ...
 
