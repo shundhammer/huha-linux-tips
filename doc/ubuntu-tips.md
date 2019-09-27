@@ -282,6 +282,30 @@ Check in Xorg.log:
 
 -----
 
+## Xfce
+
+### Use a Better File Manager
+
+Install PCManFM:
+
+    sudo apt install pcmanfm
+
+
+
+### Problem: PCManFM doesn't Show Thumbnails for Video Files
+
+Install a thumbnailer for those files.
+
+Check `/usr/share/thumbnailers` what MIME types are already supported:
+
+    grep MimeType /usr/share/thumbnailers/*
+
+If there is none for videos, install `ffmgetthumbnailer`:
+
+    sudo apt install ffmpegthumbnailer
+
+
+
 ## KDE 4
 
 
