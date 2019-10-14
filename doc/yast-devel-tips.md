@@ -228,6 +228,20 @@ source .zshrc / .bashrc:
 
 
 
+## Submit a YaST or libyui package to another target
+
+    cd src/yast/myproj
+    YAST_SUBMIT="sle_latest"  rake osc:sr
+
+For available targets, see
+https://github.com/libyui/libyui-rake/blob/master/data/targets.yml
+
+Make sure that this target is included in `~/.oscrc`:
+
+    trusted_prj = ... SUSE:SLE-15-SP2:GA ...
+
+
+
 ## Submit libstorage or snapper
 
 Make sure to edit VERSION and write a change log entry:
