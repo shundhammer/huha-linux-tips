@@ -13,7 +13,7 @@ On the Android device:
 - "Private DNS"
 - Switch from "Auto" to "Configure private DNS"
 - In the hostname field, enter `dns.adguard.com`
-- Do **not** hit the `Return` key!
+- Do **not** add a newline! I.e. if this is a multi-line field, do not hit the `Return` key!
 
 The Adguard DNS is now used for all apps. But the Chrome browser may still need a special flag:
 
