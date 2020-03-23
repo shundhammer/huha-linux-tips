@@ -21,7 +21,7 @@ makes things a bit easier).
 ### Preparations
 
 In the VirtualBox application, select the VM and open the settings details for
-that VM. Click on the _Shared folders_ heading. I the pop-up dialog, add the
+that VM. Click on the _Shared folders_ heading. In the pop-up dialog, add the
 desired folders that you want to share and give each one a name for use inside
 the VM:
 
@@ -30,7 +30,8 @@ work_src  /work/src
 work_tmp  /work/tmp
 ```
 
-`work_src` is the name that I chose, `/work/src` is the path on the host machine.
+`work_src` is the name that I chose, `/work/src` is the path on the host
+machine.
 
 
 ### The Naive Approach
@@ -153,5 +154,6 @@ VBoxManage getextradata Tumbleweed enumerate
 Now shut down your guest VM and **restart the VirtualBox application** (!!) for
 the changes to take effect.
 
-You should now be able to create symlinks in the guest VM in those shared folders.
+You should now be able to create symlinks in the guest VM in those shared
+folders.
 
