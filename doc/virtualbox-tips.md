@@ -148,7 +148,7 @@ _Notice that this will happily accept any random bullshit without any error._
 Check:
 
 ```
-VBoxManage getextradata Tumbleweed enumerate
+VBoxManage getextradata "MyVmName" enumerate
 ```
 
 Now shut down your guest VM and **restart the VirtualBox application** (!!) for
