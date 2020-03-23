@@ -15,6 +15,7 @@ See [doc](doc/) directory here.
 - [Ubuntu tips](doc/ubuntu-tips.md)
 - [SUSE tips](doc/suse-tips.md)
 - [YaST development tips](doc/yast-devel-tips.md)
+- [VirtualBox tips](doc/virtualbox-tips.md)
 - [Android tips](doc/android-tips.md)
 
 
