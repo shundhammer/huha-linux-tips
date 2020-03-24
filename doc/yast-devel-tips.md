@@ -5,6 +5,26 @@ Author: Stefan.Hundhammer@gmx.de
 License: GNU Free Documentation License
 
 
+## Setting up a YaST Development Environment
+
+Install software patterns
+
+- C/C++ Development
+- Ruby Development
+- YaST Development
+
+
+- Add the YaST:Head repo:
+
+    sudo zypper ar -p 50 "https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/" "YaST:Head"
+
+- Update all the installed packages to the versions from that repo:
+
+    sudo zypper refresh
+    sudo zypper dup --from YaST:Head --allow-vendor-change
+
+
+
 ## Use YaST2 Classes in irb (Interactive Ruby):
 
 
