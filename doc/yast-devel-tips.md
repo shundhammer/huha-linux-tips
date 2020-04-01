@@ -866,6 +866,20 @@ More information about the YaST Docker images:
 https://github.com/yast/docker-yast-ruby
 
 
+## Travis Complains about Permissions
+
+If this uses docker, add `--privileged` to the docker call in `.travis.yml`:
+
+
+    script:
+        - docker run --rm -it -e TRAVIS=1 --privileged foo-image \
+          bash -c "make -j `nproc` && ./smoke_test.sh"
+
+See also
+
+   https://github.com/openSUSE/linuxrc/pull/217/commits/a2457839d53d1631f984433a3fe52b083f832270
+
+
 ## Debugging yast-registration
 
 Fake a SLES product:
