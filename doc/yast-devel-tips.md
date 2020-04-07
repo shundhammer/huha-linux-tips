@@ -937,3 +937,15 @@ Check with
     sudo zypper lr | grep SLE
 
 
+## Registration Codes (SUSE Employees Only)
+
+Use the SUSE Customer Center (SCC) to generate an employee registration code
+for the desired product:
+
+  https://scc.suse.com/
+
+Log in, then
+
+Left side bar -> "Internal Tools" -> "Products"
+
+Select the desired product and architecture, then create a registration code.
