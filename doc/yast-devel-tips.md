@@ -24,8 +24,48 @@ Install software patterns
     sudo zypper dup --from YaST:Head --allow-vendor-change
 
 
+## YaST Installation
 
-## Use YaST2 Classes in irb (Interactive Ruby):
+### Kernel (Boot Loader) Command Line Options
+
+Those options are all forwarded to _linuxrc_:
+
+    self_update=0 startshell=1 ssh=1 sshpassword=mypassword
+
+
+- `self_update=0` prevents YaST from updating itself from active online repos.
+
+- `startshell=1` makes linuxrc start an additional shell and start YaST inside
+  that shell.
+
+  So, if YaST crashes, you will be in that shell and not immediately back at
+  linuxrc's red "An error has occurred" dialog. OTOH you need to press Ctrl-D
+  once to exit this shell after the base installation is done and YaST wants to
+  reboot the newly installed kernel.
+
+- `ssh=1` starts an ssh daemon so you can log into the machine from the network
+  and start an installation from there (linuxrc will display the host name and
+  IP address):
+
+      ssh -X root@thatmachine
+      yast.ssh
+
+  (without `-X` for an NCurses installation)
+
+- `sshpassword=` sets the ssh password. If this is omitted, linuxrc will prompt
+  for it.
+
+
+#### Text Mode (NCurses Installation)
+
+Add another command line option at the boot loader menu:
+
+    textmode=1
+
+
+
+
+## Use YaST Classes in irb (Interactive Ruby):
 
 
     irb
@@ -650,7 +690,6 @@ Nice and shiny:
 
 
 ### Resurrect old LVM to get y2logs
-===============================
 
     vgchange -ay
 
