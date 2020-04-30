@@ -201,6 +201,21 @@ See also
 
 -----
 
+## Shell
+
+### zsh: Numeric keypad Enter key not working
+
+Add this to `~/.zshrc`:
+
+    bindkey -s "^[OM" "^M"
+
+
+How to find out the key codes:
+
+In zsh, hit `Ctrl-V` and then they key.
+
+
+
 ## Desktop Environment
 
 
