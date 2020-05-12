@@ -167,6 +167,16 @@ Add
     solver.allowVendorChange = true
 
 
+### Zypper Documentation
+
+How-To:
+
+  https://en.opensuse.org/SDB:Zypper_usage
+
+SLES Manual:
+
+  https://documentation.suse.com/sles/15-SP1/html/SLES-all/cha-sw-cl.html#sec-zypper
+  https://documentation.suse.com/sles/15-SP1/html/SLES-all/cha-upgrade-online.html#sec-upgrade-online-zypper-plain
 
 
 ----
