@@ -143,6 +143,20 @@ recursively copy that entire tree to the target machine:
     scp -r src/* root@e999:/y2update
 
 
+## Booting YaST Installer in VirtualBox
+
+Boot with
+
+    self_update=0
+    ssh=1
+    sshpassword=...
+    startshell=1
+
+For NCurses (text mode) also:
+
+    textmode=1
+
+
 ## DUDs and ISOs
 
 ### Creating a Driver Update CD (DUD)
