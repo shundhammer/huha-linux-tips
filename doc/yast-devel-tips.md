@@ -949,3 +949,12 @@ Log in, then
 Left side bar -> "Internal Tools" -> "Products"
 
 Select the desired product and architecture, then create a registration code.
+
+Old:
+
+https://wiki.suse.net/index.php/YAST/reg_codes
+
+
+## Rolling back Registration after failed/aborted Migration
+
+    SUSEConnect --rollback
