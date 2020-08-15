@@ -315,7 +315,7 @@ Check `/usr/share/thumbnailers` what MIME types are already supported:
 
     grep MimeType /usr/share/thumbnailers/*
 
-If there is none for videos, install `ffmgetthumbnailer`:
+If there is none for videos, install `ffmpegthumbnailer`:
 
     sudo apt install ffmpegthumbnailer
 
