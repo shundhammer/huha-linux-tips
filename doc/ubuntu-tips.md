@@ -266,6 +266,13 @@ Use `Fn S` + _command-key_
 or `Ctrl Fn S` + _command-key_
 
 
+### Browser Task Manager (Opera, Chrome)
+
+Hit `Ctrl Esc` to show the sub-processes (including extensions) in Chrome-based
+browsers including CPU and memory usage. You can kill individual ones from
+there.
+
+
 ### Load ~/.Xdefaults etc.:
 
 Create `~/.xprofile` with
