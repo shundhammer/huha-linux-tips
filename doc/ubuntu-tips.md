@@ -218,6 +218,47 @@ In zsh, hit `Ctrl-V` and then they key.
 
 ## Desktop Environment
 
+### SysRq Key
+
+#### Enable SysRq Key
+
+Just for this session:
+
+    su
+    echo 1 >/proc/sys/kernel/sysrq
+
+Permanently: Create a new file /etc/sysctl.d/90-sysrq.conf :
+
+    cd /etc/sysctl.d
+    sudo vi 90-sysrq.conf
+
+Add this line:
+
+    kernel.sysrq=1
+
+
+#### Using SysRq
+
+- `Alt SysRq` `R` (_raw_) Switch keyboard from _raw_ mode, i.e. take it away
+  from the X server. This will switch to a text console. Switch back to X with
+  `Alt` `F7`.
+
+- `Alt SysRq` `S` Sync all mounted filesystems.
+
+- `Alt SysRq` `B` Reboot
+
+- `Alt SysRq` `Space` Show a summary of SysRq keys
+
+- `Alt SysRq` `REISUB` "Gentle" reboot:
+   - `R`: Switch keyboard from raw mode
+   - `E`: Send SIGTERM to all processes except init
+   - `I`: Send SIGKILL to all processes except init
+   - `S`: Sync all mounted filesystems
+   - `U`: Remount all mounted filesystems in read-only mode
+   - `B`: Reboot
+
+See also https://en.wikipedia.org/wiki/Magic_SysRq_key
+
 
 ### Load ~/.Xdefaults etc.:
 
