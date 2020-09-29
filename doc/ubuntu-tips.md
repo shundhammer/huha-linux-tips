@@ -260,6 +260,12 @@ Add this line:
 See also https://en.wikipedia.org/wiki/Magic_SysRq_key
 
 
+#### SysRq on a Lenovo X1 Carbon
+
+Use `Fn S` + _command-key_
+or `Ctrl Fn S` + _command-key_
+
+
 ### Load ~/.Xdefaults etc.:
 
 Create `~/.xprofile` with
