@@ -325,6 +325,49 @@ map key to
 in XFce: Map Windows key (Super_L)
 
 
+### Fix: X11 Freezing with NVidia Drivers
+
+(Seen on Xubuntu 20.04 LTS with kernel 5.4.0-48 and nvidia-driver-450)
+
+Check the syslog for this message:
+_NVRM: GPU ...: GPU has fallen off the bus._
+
+    sudo journalctl | grep "fallen off the bus"
+    
+    Okt 06 17:59:27 balrog kernel: NVRM: Xid (PCI:0000:01:00): 79, pid=1122, GPU has fallen off the bus.
+    Okt 06 17:59:27 balrog kernel: NVRM: GPU 0000:01:00.0: GPU has fallen off the bus.
+
+Try setting _persistent mode_ for the GPU. 
+
+Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-utils_).
+
+- Check if it's already running:
+
+    sudo systemctl status nvidia-persistenced
+
+- Start it only once (won't auto-start after reboot with this method):
+
+    sudo systemctl start nvidia-persistenced
+
+- If it's not running, enable it:
+
+    cd /etc/systemd/user/default.target.wants
+    sudo ln -s /lib/systemd/system/nvidia-persistenced.service .
+
+  As of 2020/10, this does _not_ work (systemd complains that it's missing a
+  _wanted_ line):
+  
+    sudo systemctl enable nvidia-persistenced     # DOESN'T WORK
+
+    
+
+Old and deprecated method (won't survive a reboot):
+
+    sudo nvidia-smi -pm 1
+
+    
+
+
 ### Fix video output tearing for Intel graphics
 
     cd /usr/share/X11/xorg.conf.d
