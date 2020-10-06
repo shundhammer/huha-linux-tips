@@ -343,21 +343,21 @@ Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-util
 
 - Check if it's already running:
 
-    sudo systemctl status nvidia-persistenced
+      sudo systemctl status nvidia-persistenced
 
 - Start it only once (won't auto-start after reboot with this method):
 
-    sudo systemctl start nvidia-persistenced
+      sudo systemctl start nvidia-persistenced
 
 - If it's not running, enable it:
 
-    cd /etc/systemd/user/default.target.wants
-    sudo ln -s /lib/systemd/system/nvidia-persistenced.service .
+      cd /etc/systemd/user/default.target.wants
+      sudo ln -s /lib/systemd/system/nvidia-persistenced.service .
 
   As of 2020/10, this does _not_ work (systemd complains that it's missing a
   _wanted_ line):
   
-    sudo systemctl enable nvidia-persistenced     # DOESN'T WORK
+      sudo systemctl enable nvidia-persistenced     # DOESN'T WORK
 
     
 
