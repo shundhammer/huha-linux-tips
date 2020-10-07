@@ -333,11 +333,11 @@ Check the syslog for this message:
 _NVRM: GPU ...: GPU has fallen off the bus._
 
     sudo journalctl | grep "fallen off the bus"
-    
+
     Okt 06 17:59:27 balrog kernel: NVRM: Xid (PCI:0000:01:00): 79, pid=1122, GPU has fallen off the bus.
     Okt 06 17:59:27 balrog kernel: NVRM: GPU 0000:01:00.0: GPU has fallen off the bus.
 
-Try setting _persistent mode_ for the GPU. 
+Try setting _persistent mode_ for the GPU.
 
 Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-utils_).
 
@@ -345,27 +345,85 @@ Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-util
 
       sudo systemctl status nvidia-persistenced
 
+- Check what mode persistence mode it uses; the default is "no persistence" (off):
+
+
+  ```
+  sudo nvidia-smi
+  
+  +-----------------------------------------------------------------------------+
+  | NVIDIA-SMI 450.66       Driver Version: 450.66       CUDA Version: 11.0     |
+  |-------------------------------+----------------------+----------------------+
+  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+  |                               |                      |               MIG M. |
+  |===============================+======================+======================|
+  |   0  GeForce GTX 105...  Off  | 00000000:01:00.0  On |                  N/A |
+                             ^^^
+                             |||
+  ```
+
+- Copy the default unit file to `/usr/local` and modify it. This is using a
+  different file and a different unit name to be safe against future package
+  updates overwriting our changes.
+
+      sudo mkdir -p /usr/local/lib/systemd/system
+      cd /usr/local/lib/systemd/system
+      sudo cp /lib/systemd/system/nvidia-persistenced.service ./my-nvidia-persistenced.service
+      sudo vi my-nvidia-persistenced.service
+      
+  - In the `ExecStart` line, change `--no-persistence-mode` to `--persistence-mode`.
+
+  - Add an `[Install]` section with `WantedBy=default.target`.
+
+  - Complete result:
+  
+  ```
+  cat /usr/local/lib/systemd/system/my-nvidia-persistenced.service
+  
+  [Unit]
+  Description=NVIDIA Persistence Daemon
+  Wants=syslog.target
+  StopWhenUnneeded=true
+  
+  [Service]
+  Type=forking
+  ExecStart=/usr/bin/nvidia-persistenced --user nvidia-persistenced --persistence-mode --verbose
+  ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced
+  
+  [Install]
+  WantedBy=default.target
+  ```
+
+- Check if systemd finds it:
+
+      systemctl list-unit-files "*my*nvidia*"
+
+- If not, notify systemd to re-read the units:
+
+      sudo systemctl daemon-reload
+
 - Start it only once (won't auto-start after reboot with this method):
 
-      sudo systemctl start nvidia-persistenced
+      sudo systemctl start my-nvidia-persistenced
+      
+- Check if it's running:
 
-- If it's not running, enable it:
+      sudo systemctl status my-nvidia-persistenced
 
-      cd /etc/systemd/user/default.target.wants
-      sudo ln -s /lib/systemd/system/nvidia-persistenced.service .
+- Enable it for future reboots:
 
-  As of 2020/10, this does _not_ work (systemd complains that it's missing a
-  _wanted_ line):
-  
-      sudo systemctl enable nvidia-persistenced     # DOESN'T WORK
+      sudo systemctl enable my-nvidia-persistenced
 
-    
+  You should now have a symlink
+  `/etc/systemd/system/default.target.wants/my-nvidia-persistenced.service` to
+  `/usr/local/lib/systemd/system/my-nvidia-persistenced.service`.
 
-Old and deprecated method (won't survive a reboot):
+
+Setting persistence mode manually (this won't survive a reboot):
 
     sudo nvidia-smi -pm 1
 
-    
 
 
 ### Fix video output tearing for Intel graphics
