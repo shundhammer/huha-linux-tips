@@ -338,59 +338,51 @@ _NVRM: GPU ...: GPU has fallen off the bus._
     Okt 06 17:59:27 balrog kernel: NVRM: GPU 0000:01:00.0: GPU has fallen off the bus.
 
 Try setting _persistent mode_ for the GPU.
+Check the current persistent status:
 
-Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-utils_).
+```
+nvidia-smi
 
-- Check if it's already running:
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 450.66       Driver Version: 450.66       CUDA Version: 11.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 105...  Off  | 00000000:01:00.0  On |                  N/A |
+                           ^^^
+                           |||
+```
 
-      sudo systemctl status nvidia-persistenced
+Set it once (this won't survive a reboot):
 
-- Check what mode persistence mode it uses; the default is "no persistence" (off):
+    sudo nvidia-smi -pm 1
 
+
+To make this permanent so it survives reboots, put it into a systemd unit in
+`/usr/local`.
+
+- Create the directory and add a new systemd unit file there:
 
   ```
-  sudo nvidia-smi
-  
-  +-----------------------------------------------------------------------------+
-  | NVIDIA-SMI 450.66       Driver Version: 450.66       CUDA Version: 11.0     |
-  |-------------------------------+----------------------+----------------------+
-  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-  |                               |                      |               MIG M. |
-  |===============================+======================+======================|
-  |   0  GeForce GTX 105...  Off  | 00000000:01:00.0  On |                  N/A |
-                             ^^^
-                             |||
+  sudo mkdir -p /usr/local/lib/systemd/system
+  cd /usr/local/lib/systemd/system
+  sudo vi my-nvidia-persistent.service
   ```
 
-- Copy the default unit file to `/usr/local` and modify it. This is using a
-  different file and a different unit name to be safe against future package
-  updates overwriting our changes.
+  With this content:
 
-      sudo mkdir -p /usr/local/lib/systemd/system
-      cd /usr/local/lib/systemd/system
-      sudo cp /lib/systemd/system/nvidia-persistenced.service ./my-nvidia-persistenced.service
-      sudo vi my-nvidia-persistenced.service
-      
-  - In the `ExecStart` line, change `--no-persistence-mode` to `--persistence-mode`.
-
-  - Add an `[Install]` section with `WantedBy=default.target`.
-
-  - Complete result:
-  
   ```
-  cat /usr/local/lib/systemd/system/my-nvidia-persistenced.service
-  
   [Unit]
-  Description=NVIDIA Persistence Daemon
-  Wants=syslog.target
+  Description=Set NVidia GPU to persistent mode
+  Requires=nvidia-persistenced.service
   StopWhenUnneeded=true
-  
+
   [Service]
-  Type=forking
-  ExecStart=/usr/bin/nvidia-persistenced --user nvidia-persistenced --persistence-mode --verbose
-  ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced
-  
+  Type=oneshot
+  ExecStart=/usr/bin/nvidia-smi -pm 1
+
   [Install]
   WantedBy=default.target
   ```
@@ -405,24 +397,28 @@ Preferred method: Use NVidia's _persistenced_ (from package _nvidia-compute-util
 
 - Start it only once (won't auto-start after reboot with this method):
 
-      sudo systemctl start my-nvidia-persistenced
-      
-- Check if it's running:
+      sudo systemctl start my-nvidia-persistent
 
-      sudo systemctl status my-nvidia-persistenced
+- Check if it was successful:
+
+      sudo systemctl status my-nvidia-persistent
+      nvidia-smi
 
 - Enable it for future reboots:
 
-      sudo systemctl enable my-nvidia-persistenced
+      sudo systemctl enable my-nvidia-persistent
 
   You should now have a symlink
-  `/etc/systemd/system/default.target.wants/my-nvidia-persistenced.service` to
-  `/usr/local/lib/systemd/system/my-nvidia-persistenced.service`.
+  `/etc/systemd/system/default.target.wants/my-nvidia-persistent.service` to
+  `/usr/local/lib/systemd/system/my-nvidia-persistent.service`.
 
+- Reboot and after the reboot check the persistent status:
 
-Setting persistence mode manually (this won't survive a reboot):
+      sudo reboot
 
-    sudo nvidia-smi -pm 1
+- After reboot:
+
+      nvidia-smi
 
 
 
