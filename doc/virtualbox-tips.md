@@ -175,29 +175,33 @@ https://superuser.com/questions/1403123/what-are-differences-between-vboxvga-vms
 
 
 Go to your VirtualBox vms directory where the `*.vbox` XML files are and edit
-them. Look for lines like this:
+them.
 
-```XML
-  <Display controller="VMSVGA" VRAMSize="16" accelerate3D="true"/>
-```
+- **Make sure to close the VirtualBox GUI**, or it will overwrite your changes!
 
-and change them to look like this instead:
+- Look for lines like this:
 
-```XML
-  <Display controller="VBoxVGA" VRAMSize="16" accelerate3D="true"/>
-```
+  ```XML
+    <Display controller="VMSVGA" VRAMSize="16" accelerate3D="true"/>
+  ```
+  
+  and change them to look like this instead:
+  
+  ```XML
+    <Display controller="VBoxVGA" VRAMSize="16" accelerate3D="true"/>
+  ```
+  
+  **There is one such line for every snapshot that the VM has, so make sure to
+  edit all of them or at least the one for the most recent snapshot!**
 
-**There is one such line for every snapshot that the VM has, so make sure to
-edit all of them or at least the one for the most recent snapshot!**
+- Or use this perl command to bulk-edit them all at once:
 
-Or use this perl command to bulk-edit them all at once:
+      cd /work/virtualbox/vms      # or wherever your VMs are
 
-    cd /work/virtualbox/vms      # or wherever your VMs are
+      perl -p -i'*.bak' -e 's/VMSVGA/VBoxVGA/g' */*.vbox
 
-    perl -p -i'*.bak' -e 's/VMSVGA/VBoxVGA/g' */*.vbox
-
-This leaves behind a `.bak` file for every changed file, so you can safely go
-back.
+  This leaves behind a `.bak` file for every changed file, so you can safely go
+  back.
 
 Starting such a VM or editing its settings may remove that `<Display
 controller...>` line entirely, leaving the defaults (which is `VBoxVGA`).
