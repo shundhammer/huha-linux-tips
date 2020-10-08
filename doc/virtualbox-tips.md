@@ -157,3 +157,47 @@ the changes to take effect.
 You should now be able to create symlinks in the guest VM in those shared
 folders.
 
+
+
+## No Graphics in Guest after VirtualBox Downgrade
+
+_This happened to me after going back to Xubuntu 18.04 LTS from 20.04 LTS
+because of constant NVidia / X11 crashes._
+
+VirtualBox 6.x introduced a new setting for graphics card type and defaults to
+another one: `VMSVGA` instead of the old `VBoxVGA`. There is no way to set that
+in the VirtualBox GUI in older versions, so you have to manually edit the XML
+file for each affected virtual machine.
+
+See also
+
+https://superuser.com/questions/1403123/what-are-differences-between-vboxvga-vmsvga-and-vboxsvga-in-virtualbox
+
+
+Go to your VirtualBox vms directory where the `*.vbox` XML files are and edit
+them. Look for lines like this:
+
+```XML
+  <Display controller="VMSVGA" VRAMSize="16" accelerate3D="true"/>
+```
+
+and change them to look like this instead:
+
+```XML
+  <Display controller="VBoxVGA" VRAMSize="16" accelerate3D="true"/>
+```
+
+**There is one such line for every snapshot that the VM has, so make sure to
+edit all of them or at least the one for the most recent snapshot!**
+
+Or use this perl command to bulk-edit them all at once:
+
+    cd /work/virtualbox/vms      # or wherever your VMs are
+
+    perl -p -i'*.bak' -e 's/VMSVGA/VBoxVGA/g' */*.vbox
+
+This leaves behind a `.bak` file for every changed file, so you can safely go
+back.
+
+Starting such a VM or editing its settings may remove that `<Display
+controller...>` line entirely, leaving the defaults (which is `VBoxVGA`).
