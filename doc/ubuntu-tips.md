@@ -530,7 +530,15 @@ which can easily be restored.
 
 ### Find out what packages are installed:
 
-    dpkg-query -f '${Package} ${db:Status-Want}\n' | grep install
+    dpkg -l | grep '^ii'
+
+### Find out what packages are installed and what repo they come from:
+
+    apt list --installed
+
+### Find out what packages _should be_ installed:
+
+    dpkg-query --show -f '${Package} ${db:Status-Want}\n' | grep install
 
 with pattern:
 
