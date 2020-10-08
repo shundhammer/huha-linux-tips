@@ -547,6 +547,15 @@ with pattern:
 (see `man dpkg-query` and then search _showformat_ for more variables)
 
 
+### Find out what package a file belongs to:
+
+    dpkg -S /some/file/name
+
+with pattern:
+
+    dpkg -S "*Qt*"
+
+
 ### Find fastest Ubuntu mirror:
 
 - Start `muon`
