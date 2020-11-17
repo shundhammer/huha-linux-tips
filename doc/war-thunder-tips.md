@@ -41,30 +41,32 @@ You can later restore that with:
 
 ### Details
 
-- Shut down your graphical desktop for now
+- Shut down your graphical desktop for now:
 
   - Shut down all your running applications to avoid losing data;
     we will kill them in a moment.
 
-  - Use Ctrl-Alt-F2 to switch to the text console
+  - Use Ctrl-Alt-F2 to switch to the text console.
   
-  - Log in there (with your normal user account)
+  - Log in there (with your normal user account).
 
-  - Shut down your desktop session that is still running on console 7:
+  - Shut down your desktop session (including the graphical login) that is
+    still running on console 7:
 
         sudo systemctl isolate multi-user.target
 
 
-- Start a fresh X server with the War Thunder binary ("aces") directly:
+- Go to the directory that you installed War Thunder to; in my case:
 
-  - Go to the directory that you installed War Thunder to; in my case:
+      cd /work/games/WarThunder
 
-        cd /work/games/WarThunder
-        cd linux64
+- Go to the linux64/ subdirectory there:
 
-  - Start a new X server with War Thunder as the only client:
+      cd linux64
 
-        startx ./aces
+- Start a new X server with the binary War Thunder as the only client:
+
+      startx ./aces
   
 - **Play**
 
@@ -84,3 +86,5 @@ Just reboot:
 - NVidia Drivers 455.38
 - NVidia GeForce GTX 1050 Ti
 - Intel Core i7 870 @ 2.93 GHz
+- 16 GB RAM
+- Samsung 256 GB SSD, 2 * 1 TB HD
