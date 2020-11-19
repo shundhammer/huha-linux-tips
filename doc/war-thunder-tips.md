@@ -5,14 +5,23 @@ Author: Stefan.Hundhammer@gmx.de
 License: GNU Free Documentation License
 
 
-## Problem
+## Update 2020-11-19:
 
-With the November 17, 2020 update _New Power_, War Thunder doesn't run anymore
+As of today with version 2.1.0.36, War Thunder is now back to working again for
+me.
+
+Thanks to everybody involved; and _many_ thanks to the continued Linux support
+by the Gajin developers!
+
+
+## Problem (now fixed)
+
+With the November 17, 2020 update _New Power_, War Thunder didn't run anymore
 on (some?) Linux systems: After hitting the "Play" button from the game
-launcher, all you get is a black screen.
+launcher, all you got was a black screen.
 
 
-## Workaround
+## Workaround (no longer necessary)
 
 ### Overview
 
