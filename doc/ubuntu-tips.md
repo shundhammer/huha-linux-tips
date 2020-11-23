@@ -471,6 +471,13 @@ If there is none for videos, install `ffmpegthumbnailer`:
     sudo apt install ffmpegthumbnailer
 
 
+### Xfce Panel not Responding to Mouse Clicks
+
+Restart it from a shell:
+
+    xfce4-panel -r
+
+
 
 ## KDE 4
 
