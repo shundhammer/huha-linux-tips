@@ -55,6 +55,15 @@ Locate the line with `env_reset`
     sudo passwd root
 
 
+### Allow ssh login for root:
+
+    sudo vi /etc/ssh/ssh_config
+
+Locate the `Host *` section and add:
+
+        PermitRootLogin yes
+
+
 ### Enable Ctrl-Alt-Backspace to kill the X server:
 
     sudo dpkg-reconfigure keyboard-configuration
