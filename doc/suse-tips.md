@@ -271,21 +271,3 @@ Alternative:
 
 Caution: This forces the label to be uppercase.
 
-
-
-
-----
-
-## SUSE internal - not useful for outside users
-
-### suse.com IMAP servers
-
-- gwmail.nue.novell.com
-- gwmail.emea.novell.com
-
-
-
-### IMAP / Sieve
-
-    sudo zypper in python-managesieve
-    sieveshell --user=sh --port=4190 --tls imap-int.suse.de
