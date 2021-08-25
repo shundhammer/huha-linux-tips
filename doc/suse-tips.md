@@ -45,9 +45,7 @@ Add kernel command parameter:
 
 - Add to the kernel command line:
 
-    ```
-    brokenmodules=nouveau
-    ```
+      brokenmodules=nouveau
 
 
 - Boot that boot entry with F10
@@ -55,6 +53,50 @@ Add kernel command parameter:
 - After boot: Check `/etc/modprobe.d/50-blacklist.conf`
 
 
+
+
+----
+
+## ssh
+
+### Can't ssh as root Anymore
+
+This affects mostly openSUSE Tumbleweed since mid-2021.
+
+- Log in to that remote machine as a normal user
+
+- Edit `/etc/sshd_config` (notice the `d`! not `/etc/ssh_config`,
+  `/etc/sshd_config`!) with root privileges:
+
+
+      ssh mynormaluser@mytumbleweed
+      cd /etc/ssh
+      sudo vi sshd_config
+
+- Add
+
+      PermitRootLogin  yes
+
+- Make sure to add it at the very end of the file to avoid any include files
+  overriding your explicitly requested change again. They love to do that (also
+  in `/etc/sudoers`).
+
+Disabling this by default is considered a security "feature" by those who keep
+making everything more and more unusable for people actually trying to **work**
+with Linux machines.
+
+They also make work pretty much impossible for system-level Linux developers
+who need to work with virtual machines, so they need root access to their VMs
+really frequently. Fiddling with ssh keys etc. is not a viable option here;
+this is much too complicated and too error-prone to set up.
+
+**I am the fucking boss on my machine, and I get root access to VMs on it
+whenever the fuck I please. Do you read me, security folks?** The same applies
+to all my machines in my home network.
+
+It's nobody's fucking business to make life even harder for users even in their
+home networks where nobody can log in from the outside to begin with. All you
+do is encourage people to migrate to BSD or to MacOS X or back to Windows.
 
 
 ----
