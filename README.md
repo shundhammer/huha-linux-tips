@@ -16,6 +16,7 @@ See [doc](doc/) directory here.
 - [SUSE tips](doc/suse-tips.md)
 - [YaST development tips](doc/yast-devel-tips.md)
 - [VirtualBox tips](doc/virtualbox-tips.md)
+- [youtube-dl tips](doc/youtube-dl.md)
 - [Android tips](doc/android-tips.md)
 
 
