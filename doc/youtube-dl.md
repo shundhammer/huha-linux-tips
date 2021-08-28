@@ -5,12 +5,30 @@ Author: Stefan.Hundhammer@gmx.de
 License: GNU Free Documentation License
 
 
+## Install youtube-dl
+
+YouTube keeps changing their web site all the time, so you need the latest
+youtube-dl, not one from a 3 years old Linux distribution that rarely, if ever,
+gets updated.
+
+    cd /usr/local/bin
+    sudo wget https://yt-dl.org/downloads/latest/youtube-dl
+    sudo chmod 755 youtube-dl
+
+If `wget` is not available, use `curl`:
+
+    cd /usr/local/bin
+    sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
+    sudo chmod 755 youtube-dl
+
+See also
+
+  https://ytdl-org.github.io/youtube-dl/download.html
+
 
 ## Update!
 
-YouTube keeps changing their web site all the time, so you need the latest
-youtube-dl, not one from a 3 years old Linux distribution. Install youtube-dl
-directly, not from the distro, and before you start using it, always update it.
+If you haven't used it for a couple of days, always update it:
 
     sudo youtube-dl --update
 
@@ -50,10 +68,19 @@ Pick the video and the audio format from the `-F` output and combine them like t
 Important: Video format **first**, then the audio format!
 
 
-## youtube-dl GitHub Repo + Docs:
+## Limit Video Resolution, but Auto-Select Formats
 
-https://github.com/ytdl-org/youtube-dl/
+To download max. 720p to keep the video size down:
 
-Examples in the docs:
+    youtube-dl -f 'bestvideo[height<=720]+bestaudio' 'https://www.youtube.com/watch?v=...'
 
-https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection-examples
+
+## Reference
+
+- youtube-dl GitHub Repo + Docs:
+
+  https://github.com/ytdl-org/youtube-dl/
+
+- Examples in the docs:
+
+  https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection-examples
