@@ -967,3 +967,96 @@ Earlier Ubuntu versions with upstart:
 
     sudo /etc/init.d/autofs start
 
+
+## Encryption
+
+### Create a Crypto File
+
+- Make sure `cryptsetup` is installed:
+
+      sudo apt install cryptsetup
+
+- Create a large enough file with preallocated size as a container.
+  For a 100 GB file:
+
+      cd /target/dir
+      fallocate -l 100G mycont.dat
+
+  alternatively (much slower!) with `dd`:
+
+      sudo dd if=/dev/zero of=mycont.dat bs=1G count=100
+
+- Create a LUKS encryption layer inside that file:
+
+      sudo cryptsetup -y luksFormat mycont.dat
+
+- Open that LUKS container:
+
+      sudo cryptsetup luksOpen mycont.dat mysecrets
+
+- Check if there is now a device for it in `/dev/mapper`:
+
+      ls -l /dev/mapper
+
+  You should see a symlink `mysecrets` pointing to `../dm-0` and a file
+  `control`. `control` is always there.
+
+- Create a filesystem in the container:
+
+      sudo mkfs.ext4 /dev/mapper/mysecrets
+
+- Don't reserve too much space in the container for _root_, consider _fsck_
+  cycles and give it a volume label.
+
+      sudo tune2fs -r 0 -c 0 -L mysecrets /dev/mapper/mysecrets
+
+  The volume label is used for the mount point if your desktop (Xfce, KDE,
+  GNOME) automatically mounts it, so choose something that isn't too hard to
+  type.
+
+
+- If your desktop doesn't mount it automatically, create a mount point and
+  mount it. A non-obvious name for the mount point might be a good idea to
+  avoid making everybody aware that there is a crypto file; `mkdir /mysecrets`
+  would give that away immediately. Use a neutral name for the mount point.
+
+      sudo mkdir /mnt2
+      sudo mount /dev/mapper/mysecrets /mysecrets
+
+- Unmount and close it:
+
+      sudo umount /mnt2
+      sudo cryptsetup luksClose mysecrets
+
+
+### Using the Crypto File
+
+- Unlock:
+
+      sudo luksOpen /target/dir/mycont.dat mysecrets
+
+  Depending on your desktop, it might be automatically mounted, usually to
+  `/media/$USER/mysecrets` (the name from the volume label).
+
+- If your desktop doesn't mount it automatically, mount it manually:
+
+      sudo mount /dev/mapper/mysecrets /mnt2
+
+- Unmount and close:
+
+      sudo umount /media/$USER/mysecrets
+
+  or
+
+      sudo umount /mnt2
+
+  In any case, don't forget to close it so it's locked again:
+
+      sudo luksClose mysecrets
+
+- Check if it is active:
+
+      ls /dev/mapper/mysecrets
+
+  A file `/dev/mapper/control` is perfectly normal.
+
