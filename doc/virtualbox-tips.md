@@ -184,13 +184,13 @@ them.
   ```XML
     <Display controller="VMSVGA" VRAMSize="16" accelerate3D="true"/>
   ```
-  
+
   and change them to look like this instead:
-  
+
   ```XML
     <Display controller="VBoxVGA" VRAMSize="16" accelerate3D="true"/>
   ```
-  
+
   **There is one such line for every snapshot that the VM has, so make sure to
   edit all of them or at least the one for the most recent snapshot!**
 
@@ -205,3 +205,86 @@ them.
 
 Starting such a VM or editing its settings may remove that `<Display
 controller...>` line entirely, leaving the defaults (which is `VBoxVGA`).
+
+
+## Newer VirtualBox (6.x) on older Ubuntu (18.04 LTS)
+
+From some point on, the older VirtualBox 5.2 that comes with Ubuntu 18.04 LTS
+is no longer a viable option: A VM like Tumbleweed or Leap 15.3 boots fine, but
+when it starts X11, all you get is a black screen:
+
+The VirtualBox 6.x guest additions in the VM are no longer compatible with the
+older VirtualBox 5.2 on the host. While this is clearly a bug, there is no fix
+in sight.
+
+But you can install the official VirtualBox 6.x from
+https://www.virtualbox.org/ .
+
+
+
+### Add the VirtualBox APT Repo
+
+See also https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/
+
+- Uninstall the old VirtualBox 5.2 packages that came with Ubuntu 18.04:
+
+      sudo apt remove
+
+- Import the repo's keys:
+
+      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+
+- Add the repo. You _could_ simply do this with `sudo add-apt-repository ...`
+  as described in that (very good and very helpful) tecadmin.net article, but
+  then it is added to all the other repos in `/etc/apt/sources.list`. For
+  clarity and better organization, it is recommended to put this into a separate file:
+
+      cd /etc/apt/sources.list.d
+      sudo vi virtualbox-org.list
+
+  content of that file:
+
+      deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib
+      # deb-src http://download.virtualbox.org/virtualbox/debian bionic contrib
+
+- Whichever way you choose, make sure to add that `[arch=amd64]` part, or you
+  will very likely get a warning
+
+  _Skipping acquire of configured file 'main/binary-i386/Packages' as
+  repository 'xxx' doesn't support architecture 'i386'_
+
+  every time you do `sudo apt update` from now on which is very annoying, so
+  tell _apt_ that this repo only supports the _amd64_ architecture; that's what
+  that `[arch=amd64]` is for .
+
+  See the _askubuntu.com_ article below for more background.
+
+
+- Update the repo information, including the one we just added:
+
+      sudo apt update
+
+- Check what newer versions are now available:
+
+      sudo apt-search "virtualbox-6"
+
+  Or, more generally, but with more irrelevant output:
+
+      sudo apt-search virtualbox
+
+- Install the newer version. **DO NOT** install just any random version; be
+  more specific by adding the version number:
+
+      sudo apt install virtualbox-6.1
+
+  Don't be surprised if that takes a while: It will have to compile a kernel
+  module.
+
+
+
+### Reference
+
+- https://www.virtualbox.org/
+- https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/
+- https://askubuntu.com/questions/741410/skipping-acquire-of-configured-file-main-binary-i386-packages-as-repository-x
