@@ -1060,3 +1060,27 @@ Earlier Ubuntu versions with upstart:
 
   A file `/dev/mapper/control` is perfectly normal.
 
+
+## LUKS / DeviceMapper Troubleshooting
+
+See also
+
+    man dmsetup
+
+
+### See DeviceMapper Devices
+
+    sudo dmsetup ls
+
+
+### See LUKS Devices
+
+    sudo blkid | grep LUKS
+
+
+### Reset DeviceMapper
+
+    sudo dmsetup remove_all
+
+This removes the devices only from the DeviceMapper's internal _table_, of
+course, it does not actually do anything to the devices.
