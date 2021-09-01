@@ -248,6 +248,12 @@ See also https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/
       deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian bionic contrib
       # deb-src http://download.virtualbox.org/virtualbox/debian bionic contrib
 
+  Notice that the _bionic_ part is about the Ubuntu version, in this case 18.04
+  LTS. For a different Ubuntu version, use that version's code name.
+  If you don't know it, look it up in `/etc/os-release`:
+
+      grep UBUNTU_CODENAME /etc/os-release
+
 - Whichever way you choose, make sure to add that `[arch=amd64]` part, or you
   will very likely get a warning
 
