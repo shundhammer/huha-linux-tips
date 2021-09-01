@@ -226,10 +226,6 @@ https://www.virtualbox.org/ .
 
 See also https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/
 
-- Uninstall the old VirtualBox 5.2 packages that came with Ubuntu 18.04:
-
-      sudo apt remove
-
 - Import the repo's keys:
 
       wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
@@ -266,6 +262,12 @@ See also https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/
 
   See the _askubuntu.com_ article below for more background.
 
+
+### Install the Newer VirtualBox
+
+- Uninstall the old VirtualBox 5.2 packages that came with Ubuntu 18.04:
+
+      sudo apt remove "virtualbox*"
 
 - Update the repo information, including the one we just added:
 
