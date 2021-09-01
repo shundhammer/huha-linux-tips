@@ -103,6 +103,14 @@ do is encourage people to migrate to BSD or to MacOS X or back to Windows.
 
 ## X11 / Desktop
 
+### Don't Boot Systemd into Graphical Login
+
+If X11 or Wayland don't work, boot into a text mode login.
+From the Grub prompt:
+
+    systemd.unit=multi-user.target
+
+
 ### Get Rid of Ever-Growing ~/.xsession-errors
 
 #### Symptom
