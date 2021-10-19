@@ -279,3 +279,92 @@ Alternative:
 
 Caution: This forces the label to be uppercase.
 
+
+-------------
+
+# Time Zones
+
+## GUI: Use YaST
+
+YaST lets you select your time zone from a world map:
+
+    sudo yast2 timezone
+
+
+## Text-driven menu: tzselect
+
+
+```
+[sh @ balrog-tw-dev] ~ 7 % sudo tzselect
+
+Please identify a location so that time zone rules can be set correctly.
+Please select a continent, ocean, "coord", or "TZ".
+ 1) Africa
+ 2) Americas
+ 3) Antarctica
+ 4) Asia
+ 5) Atlantic Ocean
+ 6) Australia
+ 7) Europe
+ 8) Indian Ocean
+ 9) Pacific Ocean
+10) coord - I want to use geographical coordinates.
+11) TZ - I want to specify the timezone using the Posix TZ format.
+#? 7
+
+Please select a country whose clocks agree with yours.
+ 1) Albania		  18) Hungary		    35) Portugal
+ 2) Andorra		  19) Ireland		    36) Romania
+ 3) Austria		  20) Isle of Man	    37) Russia
+ 4) Belarus		  21) Italy		    38) San Marino
+ 5) Belgium		  22) Jersey		    39) Serbia
+ 6) Bosnia & Herzegovina  23) Latvia		    40) Slovakia
+ 7) Bulgaria		  24) Liechtenstein	    41) Slovenia
+ 8) Croatia		  25) Lithuania		    42) Spain
+ 9) Czech Republic	  26) Luxembourg	    43) Svalbard & Jan Mayen
+10) Denmark		  27) Malta		    44) Sweden
+11) Estonia		  28) Moldova		    45) Switzerland
+12) Finland		  29) Monaco		    46) Turkey
+13) France		  30) Montenegro	    47) Ukraine
+14) Germany		  31) Netherlands	    48) United Kingdom
+15) Gibraltar		  32) North Macedonia	    49) Vatican City
+16) Greece		  33) Norway		    50) Åland Islands
+17) Guernsey		  34) Poland
+#? 14
+
+Please select one of the following timezones.
+1) Swiss time
+2) Germany (most areas)
+#? 2
+
+The following information has been given:
+
+	Germany
+	Germany (most areas)
+
+Therefore TZ='Europe/Berlin' will be used.
+Selected time is now:	Di 19. Okt 16:32:42 CEST 2021.
+Universal Time is now:	Di 19. Okt 14:32:42 UTC 2021.
+Is the above information OK?
+1) Yes
+2) No
+#?
+```
+
+
+## Command Line: zic
+
+    sudo zic -l Europe/Berlin
+
+Check with:
+
+    [sh @ balrog-tw-dev] ~ 9 % ls -l /etc/localtime
+    lrwxrwxrwx 1 root root 33 Okt 19 16:27 /etc/localtime -> /usr/share/zoneinfo/Europe/Berlin
+
+
+## Check Available Time Zones
+
+    cd /usr/share/zoneinfo
+    ls
+    cd Europe
+    ls

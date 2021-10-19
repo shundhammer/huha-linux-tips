@@ -1033,7 +1033,7 @@ Earlier Ubuntu versions with upstart:
 
 - Unlock:
 
-      sudo luksOpen /target/dir/mycont.dat mysecrets
+      sudo cryptsetup luksOpen /target/dir/mycont.dat mysecrets
 
   Depending on your desktop, it might be automatically mounted, usually to
   `/media/$USER/mysecrets` (the name from the volume label).
