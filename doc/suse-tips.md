@@ -352,7 +352,7 @@ Is the above information OK?
 ```
 
 
-## Command Line: zic
+## Command line: zic
 
     sudo zic -l Europe/Berlin
 
@@ -362,7 +362,7 @@ Check with:
     lrwxrwxrwx 1 root root 33 Okt 19 16:27 /etc/localtime -> /usr/share/zoneinfo/Europe/Berlin
 
 
-## Check Available Time Zones
+## Check available time zones
 
     cd /usr/share/zoneinfo
     ls
