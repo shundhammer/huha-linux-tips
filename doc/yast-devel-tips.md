@@ -943,7 +943,7 @@ Fake a SLES product:
 _Just using "sudo" doesn't work because it will remove the variable from the
 environment immediately!_
 
-***This will add SLES repos to the system;** you will have to remove them
+**This will add SLES repos to the system;** you will have to remove them
 afterwards.
 
 Check with
