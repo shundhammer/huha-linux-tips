@@ -53,6 +53,12 @@ Add kernel command parameter:
 - After boot: Check `/etc/modprobe.d/50-blacklist.conf`
 
 
+### Ignore a Disk / Block Device
+
+    echo 1 >/sys/block/sdX/device/delete
+
+See also https://bugzilla.suse.com/show_bug.cgi?id=1195894#c22
+
 
 
 ----
