@@ -235,6 +235,21 @@ SLES Manual:
   https://documentation.suse.com/sles/15-SP1/html/SLES-all/cha-upgrade-online.html#sec-upgrade-online-zypper-plain
 
 
+
+### Expand an RPM Macro
+
+The macros used in .spec files are defined in `/usr/lib/rpm` and its
+subdirectories.
+
+To see a specific one expanded, e.g. `_sbindir`:
+
+    rpm -E '%{_sbindir}'
+
+or
+
+    rpm --eval '%{_sbindir}'
+
+
 ----
 
 ## Applications
