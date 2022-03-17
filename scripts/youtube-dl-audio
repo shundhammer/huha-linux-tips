@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Download the audio track from a video in MP3 format
+
+youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 $*

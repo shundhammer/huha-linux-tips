@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Download a video in no more than 720p, but with the best audio
+
+youtube-dl -f 'bestvideo[height<=720]+bestaudio' $*
