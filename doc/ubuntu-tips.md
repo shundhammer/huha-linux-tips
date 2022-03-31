@@ -859,6 +859,15 @@ Don't forget to activate `libdvdcss`:
     sudo /usr/share/doc/libdvdread4/install-css.sh
 
 
+### Convert .webm Video to MP4
+
+- Make sure `ffmpeg` is installed.
+
+- Convert:
+
+      ffmpeg -i myvideo.webm myvideo.mp4
+
+
 -----
 
 ## Network
