@@ -1093,3 +1093,54 @@ See also
 
 This removes the devices only from the DeviceMapper's internal _table_, of
 course, it does not actually do anything to the devices.
+
+
+## Opera
+
+### Fix Opera Window Size and Position
+
+#### Option 1: Edit Opera's Preferences File
+
+For many releases, the Opera web browser correctly stored the last main window
+size and position in `~/.config/opera/Preferences` when closing the last
+browser window and restored it when restarting Opera. This file can be edited.
+
+Caveat:
+
+- Close Opera before doing that as it will be overwritten each time Opera shuts
+  down!
+
+- It's text, but _horribly_ formatted; it's just one single insanely wide line.
+
+Look for an entry like this:
+
+`
+"window_placement":{"height":1157,"left":230,"maximized":false,"top":0,"width":1520}
+`
+
+There might be several of those. If you edit, make sure to use the right one.
+
+To find a good window size and position, use the `xwininfo` command from the
+`x11-utils` package.
+
+
+### Option 2: Edit the Launcher
+
+Right-click the launcher for Opera on your desktop, then click "Edit Launcher"
+from its context menu. Click into the "Command" field and change it to
+
+```
+opera %U --window-size=1600,1550 --window-position=250,0
+```
+
+Notice the different syntax: It uses a _comma_ as the delimiter, even for the
+window size, unlike the X11 standard for `-geometry` which would be
+`1600x1550`.
+
+If you also have a launcher in the task bar, make sure to edit that as well:
+Right-click it, select "Properties" from the context menu, then select the
+bottom-most icon from the buttons on the right side (the "Edit" button with the
+pencil on the paper), then you get the same "Edit Launcher" window as above;
+and also edit the "Command" field with the command line above.
+
+In both cases, don't forget to save the changes.
