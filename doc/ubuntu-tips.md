@@ -1144,3 +1144,105 @@ pencil on the paper), then you get the same "Edit Launcher" window as above;
 and also edit the "Command" field with the command line above.
 
 In both cases, don't forget to save the changes.
+
+
+### Get Rid of Opera's Red Update Reminder
+
+When Opera thinks there is a newer, better, shinier version out there, it will
+display its "Menu" button in the top left corner red to make it so annoying
+that you will want to do something about it.
+
+But sometimes they fuck up; sometimes the latest Opera doesn't work, or it
+doesn't work with the `chromium-codecs-ffmpeg-extra` that is available for your
+distro. Still, you get that "up yours" red button when Opera wants you to
+update.
+
+**Fix:** Start Opera with the `--disable-update` option; add that to the command
+used in the Opera launcher on your desktop.
+
+
+### Enforce Correct Video Codecs
+
+Opera heavily depends on the `chromium-codecs-ffmpeg-extra` package to display
+all video formats. But Chromium (and its codecs) and Opera are not released in
+sync; sometimes the Chromium and the codecs are lagging behind, sometimes Opera
+is lagging behind. Essentially it has become impossible (since early 2020) to
+get matching versions if you rely on automatic updates.
+
+
+#### Solution
+
+Set both packages on "hold" until you are sure you have matching ones:
+
+- chromium-codecs-ffmpeg-extra
+- opera-stable
+
+
+```
+sudo apt-mark hold chromium-codecs-ffmpeg-extra opera-stable
+```
+
+Use the "About Opera" page from Opera's "Help" menu to find out which Chrome
+version it is built for; e.g.
+
+> Browser identification
+> ...
+>
+> Chrome/101.0.4951.67 Safari/537.36 OPR/87.0.4390.36_
+
+Do not upgrade Opera if you cannot also upgrade the Chrome codecs to that
+version: Most YouTube videos will stop playing.
+
+You can use `synaptic` to see which version you have installed, and which one
+is available, i.e. which one you would get with `sudo apt upgrade`.
+
+When the Chrome major version is increased, you can take your chances: Unhold
+the packages, upgrade; and remember to set them to "hold" again.
+
+```
+sudo apt-mark unhold chromium-codecs-ffmpeg-extra opera-stable
+sudo apt upgrade
+sudo apt update
+sudo apt-mark hold chromium-codecs-ffmpeg-extra opera-stable
+```
+
+
+### Keeping older Opera Versions
+
+The Opera repos only keep the latest version around. If you want to go back to
+an earlier version, you are screwed; unless you explicitly download it in time
+(as long as it's still available) in an archive directory.
+
+
+```console
+[sh @ balrog] .../work/archive/deb 19 % ls -l
+
+total 165244
+-rwxr-xr-x 1 sh sh      161 Feb 18 16:11 download-opera-stable
+-rw-r--r-- 1 sh sh 84257204 May  9 13:47 opera-stable_86.0.4363.50_amd64.deb
+-rw-r--r-- 1 sh sh 84936088 May 27 08:40 opera-stable_87.0.4390.36_amd64.deb
+
+[sh @ balrog] .../work/archive/deb 20 % cat download-opera-stable
+
+#!/bin/sh
+
+DL_DIR=/work/archive/deb
+
+cd $DL_DIR
+apt-get download opera-stable
+
+echo "\n$DL_DIR (latest 10):\n"
+/bin/ls -rlth opera-stable*.deb | tail -n 10
+echo
+```
+
+Call this little script when you think you might have a candidate version for a
+better Opera; but when you might want to go back to the previous one.
+
+Install a version from this archive directory with `dpkg`:
+
+```
+sudo dpkg -i ./opera-stable_87.0.4390.36_amd64.deb
+```
+
+This will also handle a version downgrade gracefully.
