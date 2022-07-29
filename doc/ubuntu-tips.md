@@ -1157,8 +1157,24 @@ doesn't work with the `chromium-codecs-ffmpeg-extra` that is available for your
 distro. Still, you get that "up yours" red button when Opera wants you to
 update.
 
-**Fix:** Start Opera with the `--disable-update` option; add that to the command
-used in the Opera launcher on your desktop.
+
+#### Fix 1: Disable Auto-Update
+
+Start Opera with the `--disable-update` option; add that to the
+command used in the Opera launcher on your desktop.
+
+Check at "Update and Recovery" in Opera's main menu if that had any effect. It
+should now say "Update check disabled".
+
+
+### Fix 2: Rename the Auto-Update Binary
+
+```
+cd /usr/lib/x86_64-linux-gnu/opera
+sudo mv opera_autoupdate opera_autoupdate.old
+```
+
+Remember that every Opera update or installation will revert this change.
 
 
 ### Enforce Correct Video Codecs
