@@ -24,6 +24,32 @@ To keep the shell environment: Locate the line with `env_reset`
     Defaults    !env_reset
 
 
+### Disable forced NumLock
+
+_Whoever came up with the brain-dead idea to force this to "on" should be
+shot!_
+
+    sudo zypper rm numlockx
+    sudo zypper addlock numlockx
+
+
+## Xfce Desktop
+
+### Xfce NumLock State
+
+- Open _Settings_ -> _Keyboard_ -> Tab "Behavior"
+
+- Set or unset "Restore num lock state on startup"
+
+Or check with:
+
+    xfconf-query -c keyboards -lv
+
+### Duplicate SysTray Icons
+
+    xfce4-panel --restart
+
+
 
 ----
 
