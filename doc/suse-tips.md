@@ -132,8 +132,8 @@ This affects mostly openSUSE Tumbleweed since mid-2021.
 
 - Log in to that remote machine as a normal user
 
-- Edit `/etc/sshd_config` (notice the `d`! not `/etc/ssh_config`,
-  `/etc/sshd_config`!) with root privileges:
+- Edit `/etc/ssh/sshd_config` (notice the `d`! not `/etc/ssh/ssh_config`,
+  `/etc/ssh/sshd_config`!) with root privileges:
 
 
       ssh mynormaluser@mytumbleweed
