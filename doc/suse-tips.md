@@ -33,6 +33,41 @@ shot!_
     sudo zypper addlock numlockx
 
 
+### Change Default Browser for URL Handling
+
+Symptom: Hyperlinks (http, https) are opened in Firefox, not in your favourite
+browser. In this example: _Opera_.
+
+- Make sure that your favourite browser is selected as the default in your desktop. In _Xfce_:
+
+  Settings -> Default Applications -> Web Browser
+
+- Find the .desktop file for that browser from its package file list. For Opera:
+
+      rpm -ql opera | grep '\.desktop'
+
+      /usr/share/applications/com.opera.opera.desktop
+
+- Check what handler is currently used for the relevant MIME types:
+  - `x-scheme-handler/https`
+  - `x-scheme-handler/http`
+
+      xdg-mime query default x-scheme-handler/https
+      xdg-mime query default x-scheme-handler/http
+
+- Set your favourite browser as the new handler:
+
+      xdg-mime default com.opera.opera.desktop x-scheme-handler/https
+      xdg-mime default com.opera.opera.desktop x-scheme-handler/http
+
+- Check the new handler:
+
+      xdg-mime query default x-scheme-handler/https
+      xdg-mime query default x-scheme-handler/http
+
+**Notice that just setting the MIME association `text/html` to that browser might not work.**
+
+
 ## Xfce Desktop
 
 ### Xfce NumLock State
