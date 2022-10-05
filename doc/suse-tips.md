@@ -68,6 +68,15 @@ browser. In this example: _Opera_.
 **Notice that just setting the MIME association `text/html` to that browser might not work.**
 
 
+### X11 Mouse Pointer Grabs
+
+Use `Ctrl` + `Alt` + `NumPad/` to stop a grabbed X11 mouse pointer.
+
+If that doesn't work, check with `xev` (`sudo zypper in xev`) if that key
+combination indeed sends the _XF86Ungrab_ key symbol.
+
+
+
 ## Xfce Desktop
 
 ### Xfce NumLock State
