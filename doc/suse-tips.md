@@ -89,9 +89,19 @@ Or check with:
 
     xfconf-query -c keyboards -lv
 
+
 ### Duplicate SysTray Icons
 
     xfce4-panel --restart
+
+
+### Open Desktop Folder Links in a New Window in PcManFM
+
+- Open _Settings_ -> _Default Applications_ -> Tab "Utilities"
+
+- Combo box "File Manager" -> "Other"
+
+- Select "pcmanfm" and add option `-n` (`/usr/bin/pcmanfm -n "%s"`)
 
 
 
