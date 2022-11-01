@@ -303,6 +303,61 @@ Add
     solver.allowVendorChange = true
 
 
+### Manually Updating
+
+#### Leap
+
+    sudo zypper refresh
+    sudo zypper patch
+
+
+#### Tumbleweed
+
+    sudo zypper refresh
+    sudo zypper dup --download-only -y
+    sudo zypper dup --download-only -y
+
+until nothing is downloaded anymore; then:
+
+    sudo zypper dup
+
+Downloading all pending updates before actually applying them minimizes the
+risk of getting into an inconsistent state where some packages were updated,
+some were not, and some may already be available again in an even newer
+version.
+
+
+### Disable Automatic Daily Updates Check
+
+Configuring that only in the Xfce/GNOME systray applet has no effect:
+
+That applet will STILL alert you at the most inconvenient times. And it will
+never realize when you already did today's updates manually (still screaming
+its ALARM!! at you); and when you use the GNOME PackageKit app, that thing will
+always be in a totally antisocial fullscreen mode (which cannot be configured
+away), so you have to resize it manually to a reasonable size to make your
+computer usable while it is running.
+
+It's much better to update manually (see previous section) when it's convenient
+for you, not at some random time when some systemd timer runs out, and then
+that alarm icon keeps nagging you in the systray.
+
+So, disable that timer-based auto-update with:
+
+    sudo systemctl disable packagekit-background.timer
+
+Check with:
+
+    sudo systemctl status packagekit-background.timer
+
+Check all related systemd units:
+
+    sudo systemctl list-unit-files "packagekit*"
+
+The units are defined in `/usr/lib/systemd/system/packagekit*`
+or (if there are user-defined ones) in `/etc/systemd/`.
+
+
 ### Zypper Documentation
 
 How-To:
