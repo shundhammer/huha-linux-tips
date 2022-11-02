@@ -52,8 +52,10 @@ browser. In this example: _Opera_.
   - `x-scheme-handler/https`
   - `x-scheme-handler/http`
 
-      xdg-mime query default x-scheme-handler/https
-      xdg-mime query default x-scheme-handler/http
+  with:
+  
+       xdg-mime query default x-scheme-handler/https
+       xdg-mime query default x-scheme-handler/http
 
 - Set your favourite browser as the new handler:
 
