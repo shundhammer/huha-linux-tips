@@ -972,3 +972,14 @@ https://wiki.suse.net/index.php/YAST/reg_codes
 ## Rolling back Registration after failed/aborted Migration
 
     SUSEConnect --rollback
+
+
+## Checking what an ISO Contains
+
+- Start downloading the ISO
+
+- Interrupt the download as soon as a few MB have been downloaded
+
+- Check it with
+
+      isoinfo -f -R -i *.iso
