@@ -7,7 +7,7 @@ License: GNU Free Documentation License
 
 ## Root Login
 
-Root login via ssh is disabled by default. Either log into the system console
+Root login via `ssh` is disabled by default. Either log into the system console
 as root, or log in via `ssh` as a normal user (which you _should_ really create
 during installation) and then use `su`.
 
