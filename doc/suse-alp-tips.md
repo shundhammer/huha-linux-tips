@@ -1,4 +1,4 @@
-# HuHa's SUSE ALP tips
+# HuHa's SUSE ALP Tips
 
 Author: Stefan.Hundhammer@gmx.de
 
@@ -8,13 +8,13 @@ License: GNU Free Documentation License
 ## Root Login
 
 Root login via ssh is disabled by default. Either log into the system console
-as root, or log in via ssh as a normal user (which you _should_ really create
-during installation) and then use 'su'.
+as root, or log in via `ssh` as a normal user (which you _should_ really create
+during installation) and then use `su`.
 
 
 ## Console Keyboard Layout
 
-The US keyboard layout is the default. To get another one, use 'localectl'.
+The US keyboard layout is the default. To get another one, use `localectl`.
 
     localectl status
     localectl list-keymaps
@@ -34,7 +34,7 @@ For a German keyboard layout:
 
       ip a | grep 'inet ' | grep -v '127.0.0.1'
 
-- Start a browser tab with that IP address followed by ':9090':
+- Start a browser tab with that IP address followed by `:9090`:
 
       https://192.168.178.44:9090
 
