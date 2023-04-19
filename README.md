@@ -13,7 +13,8 @@ describe here worked for me at the time I needed a solution.
 See [doc](doc/) directory here.
 
 - [Ubuntu tips](doc/ubuntu-tips.md)
-- [SUSE tips](doc/suse-tips.md)
+- [SUSE Leap / SLE / Tumbleweed tips](doc/suse-tips.md)
+- [SUSE ALP tips](doc/suse-alp-tips.md)
 - [YaST development tips](doc/yast-devel-tips.md)
 - [VirtualBox tips](doc/virtualbox-tips.md)
 - [youtube-dl tips](doc/youtube-dl.md)
