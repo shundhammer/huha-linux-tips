@@ -11,6 +11,8 @@ Root login via `ssh` is disabled by default. Either log into the system console
 as root, or log in via `ssh` as a normal user (which you _should_ really create
 during installation) and then use `su`.
 
+Notice that you can also use a root shell in Cockpit in the "Terminal" tab.
+
 
 ## Console Keyboard Layout
 
