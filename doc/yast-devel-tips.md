@@ -316,6 +316,67 @@ Make sure that this target is included in `~/.oscrc`:
 
 
 
+## Manually submit a YaST package to Factory
+
+  osc sr YaST:Head yast2-users openSUSE:Factory
+
+  osc request show <request-id>
+
+or https://build.opensuse.org/request/show/<request-id>
+
+
+## Full cycle
+
+- Check out the package from OBS:
+
+    cd /work/obs
+    osc co YaST:Head/yast2-users
+
+- From the devel directory: Create a tarball and copy it to the OBS checkout
+
+    cd package
+    rake tarball
+    cp * /work/obs/YaST:Head/yast2-users
+
+- From the OBS checkout: Check in the changes
+
+    cd /work/obs/YaST:Head/yast2-users
+    rm <old tarball>
+    osc ar
+    osc diff
+    osc ci
+
+
+- Check changes in OBS web UI:
+
+https://build.opensuse.org/package/show/YaST:Head/yast2-users
+
+
+- Submit the changes to Factory:
+
+    osc sr YaST:Head yast2-users openSUSE:Factory
+
+    osc request show <request-id>
+
+- Check the changes in the OBS web UI:
+
+  https://build.opensuse.org/request/show/<request-id>
+
+
+## Check YaST package in OBS
+
+- YaST:Head:
+
+  - https://build.opensuse.org/project/show/YaST:Head
+  - https://build.opensuse.org/package/show/YaST:Head/yast2-users
+
+- Factory:
+
+  - https://build.opensuse.org/project/show/openSUSE:Factory
+
+
+
+
 ## Submit libstorage or snapper
 
 Make sure to edit VERSION and write a change log entry:
