@@ -322,7 +322,7 @@ Make sure that this target is included in `~/.oscrc`:
 
     osc request show <request-id>
 
-or https://build.opensuse.org/request/show/<request-id>
+or https://build.opensuse.org/request/show/ _request-id_
 
 
 ## Full cycle
@@ -360,7 +360,7 @@ https://build.opensuse.org/package/show/YaST:Head/yast2-users
 
 - Check the changes in the OBS web UI:
 
-  https://build.opensuse.org/request/show/<request-id>
+  https://build.opensuse.org/request/show/ _request-id_
 
 
 ## Check YaST package in OBS
