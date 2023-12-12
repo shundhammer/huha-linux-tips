@@ -301,6 +301,11 @@ source .zshrc / .bashrc:
     . ~/.zshrc
 
 
+### IBS Directories
+
+- SLE-15-SP6 project:  https://build.suse.de/project/show/SUSE:SLE-15-SP6:GA
+- SLE-15-SP6 packages: https://download.suse.de/ibs/SUSE:/SLE-15-SP6:/GA/standard/
+
 
 ## Submit a YaST or libyui package to another target
 
