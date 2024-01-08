@@ -5,6 +5,11 @@ Author: Stefan.Hundhammer@gmx.de
 License: GNU Free Documentation License
 
 
+## Modern replacement: yt-dlp
+
+Try installing package `yt-dlp` from your distro.
+
+
 ## Install youtube-dl
 
 YouTube keeps changing their web site all the time, so you need the latest
@@ -73,6 +78,8 @@ Important: Video format **first**, then the audio format!
 To download max. 720p to keep the video size down:
 
     youtube-dl -f 'bestvideo[height<=720]+bestaudio' 'https://www.youtube.com/watch?v=...'
+
+_This doesn't seem to work anymore._
 
 
 ## Reference
