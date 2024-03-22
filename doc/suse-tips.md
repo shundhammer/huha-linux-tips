@@ -24,6 +24,27 @@ To keep the shell environment: Locate the line with `env_reset`
     Defaults    !env_reset
 
 
+### Disable 'sudo' logging
+
+    sudo visudo
+
+Add line
+
+    Defaults !syslog, !pam_session
+
+
+Alternatively:
+
+Just for user 'kilroy':
+
+    Defaults: kilroy !syslog, !pam_session
+
+Just don't log successful 'sudo' commands
+(this will still log the 'sudo' session start and and the UID):
+
+    Defaults !log_allowed
+
+
 ### Disable forced NumLock
 
 _Whoever came up with the brain-dead idea to force this to "on" should be
@@ -53,7 +74,7 @@ browser. In this example: _Opera_.
   - `x-scheme-handler/http`
 
   with:
-  
+
        xdg-mime query default x-scheme-handler/https
        xdg-mime query default x-scheme-handler/http
 
