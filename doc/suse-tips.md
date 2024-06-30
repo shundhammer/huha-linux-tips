@@ -11,20 +11,61 @@ so long that most things in a SUSE environment come natural to me)
 
 ## Getting a freshly installed SUSE up and running
 
+### Install bare minimum tools
+
+    sudo zypper in mmv zsh emacs
+    sudo zypper in exif exiftool exiftran jhead id3v2
+    sudo zypper in qt5ct
+
+Add the `PackMan` repo, then
+
+    sudo zypper in vlc
+
+If your machine has a DVD drive and you want to watch video DVDs, add the
+'libdvdcss' repo, then
+
+    sudo zypper in libdvdcss2
+
+
 ### Allow 'sudo' without password for yourself:
 
     sudo visudo
 
-Add line (at the end of the file - AFTER any 'include') with:
+Add those lines at the end of the file (AFTER any 'include'):
 
     myusername  ALL=(ALL) NOPASSWD: ALL
+    Defaults !log_allowed
+    Defaults env_keep = "DISPLAY QT_QPA_PLATFORMTHEME LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS XDG_SESSION_COOKIE"
 
-To keep the shell environment: Locate the line with `env_reset`
+Replace `myusername` with your real user name, of course.
+
+Alternative to the `env_keep` line: Add
 
     Defaults    !env_reset
 
+Explanation:
 
-### Disable 'sudo' logging
+- The first line allows you to use `sudo` without entering the password all the time.
+
+  Notice that SUSE needs you to enter the _root_ password, for Ubuntu / Debian you need
+  to enter your normal user account's password.
+
+- The `!log_allowed` line does not write every succesful `sudo` command to the log;
+  which by itself is a severe privacy intrusion.
+
+- The `env_keep` line lists those environment variables to keep while invoking
+  a command with `sudo`. By the (maybe more secure, but extremely
+  user-unfriendly) defaults, it simply deletes them all, so you can't even do
+  basic things with X11 or Qt programs. So we added `DISPLAY` and
+  `QT_QPA_PLATFORMTHEME` here. The others are copied form the original line
+  somewhere in the middle of the file.
+
+- The alternative `!env_reset` line doesn't delete the environment variables
+  in the first place, but it might open up other security holes with
+  environment variables that you might not even think of.
+
+
+### Alternative: Disable 'sudo' logging
 
     sudo visudo
 
@@ -52,6 +93,75 @@ shot!_
 
     sudo zypper rm numlockx
     sudo zypper addlock numlockx
+
+
+### Get a usable font size for Qt programs
+
+    sudo zypper in qt5ct
+
+Add to ~root/.bashrc:
+
+    export QT_QPA_PLATFORMTHEME=qt5ct
+
+Source that file for using right now: As root:
+
+    . ~root/.bashrc
+
+Configure the Qt look and feel: As root:
+
+    qt5ct
+
+The result is stored in `~/.config/qt5ct`.
+
+
+### Install the Opera Browser
+
+No need to add an extra repo; Opera is available from the Leap Non-OSS repo.
+
+    sudo zypper in opera
+
+But adding the extra codes from Chromium is strongly advised.
+Add the PackMan repo, then
+
+    sudo zypper in chromium-ffmpeg-extra
+
+
+### Keeping Opera and Codecs in sync
+
+Notice that the codecs need to match the chrome engine that this version of
+Opera was built against. Sometimes it is advisable to lock both packages
+because they might get updates out of sync with each other.
+
+In Opera, use the "Help" menu -> "About Opera" to check the Chromium
+version. That's the version of `chromium-ffmpeg-extra` that should definitely
+work.
+
+If the versions don't match, consider locking and unlocking both packages to
+update both when matching versions are available:
+
+    sudo zypper addlock opera chromium-ffmpeg-extra
+
+    sudo zypper removelock opera chromium-ffmpeg-extra
+
+Check with
+
+    sudo zypper ll
+
+Notice that in Leap, sometimes you also have to lock specific patches that
+bring an Opera update; but if the codes don't also get an update, you'll get a
+dysfunctional Opera: Some web videos simply won't play. That typically affects
+YouTube (some videos, not all), Facebook, Twitter.
+
+Always check with
+
+    zypper lp
+
+or
+
+    zypper lp | grep opera
+
+if a patch would update Opera. 
+
 
 
 ### Change Default Browser for URL Handling
@@ -113,7 +223,7 @@ Or check with:
     xfconf-query -c keyboards -lv
 
 
-### Duplicate SysTray Icons
+### Get Rid of Duplicate SysTray Icons
 
     xfce4-panel --restart
 
@@ -127,6 +237,19 @@ Or check with:
 - Select "pcmanfm" and add option `-n` (`/usr/bin/pcmanfm -n "%s"`)
 
 
+### Install Additional Xfce Packages
+
+    sudo zypper in xfce4-places-plugin xfce4-cpugraph-plugin xfce4-mount-plugin xfce4-systemload-plugin
+    sudo zypper in xfwm4-themes
+
+Check out `xfwm4-theme-*`.
+
+For laptops:
+
+    sudo zypper in xfce4-battery-plugin
+
+
+Personal preference: Replace `xfce4-*-branding-openSUSE` with `xfce4-*-branding-upstream`.
 
 ----
 
@@ -199,13 +322,13 @@ who need to work with virtual machines, so they need root access to their VMs
 really frequently. Fiddling with ssh keys etc. is not a viable option here;
 this is much too complicated and too error-prone to set up.
 
-**I am the fucking boss on my machine, and I get root access to VMs on it
-whenever the fuck I please. Do you read me, security folks?** The same applies
-to all my machines in my home network.
+**I am the boss on my machine, and I get root access to VMs on it whenever I
+please. Do you read me, security folks?** The same applies to all my machines
+in my home network.
 
-It's nobody's fucking business to make life even harder for users even in their
-home networks where nobody can log in from the outside to begin with. All you
-do is encourage people to migrate to BSD or to MacOS X or back to Windows.
+It's nobody's business to make life even harder for users even in their home
+networks where nobody can log in from the outside to begin with. All you do is
+encourage people to migrate to BSD or to MacOS X or back to Windows.
 
 
 ----
@@ -331,14 +454,19 @@ Add
 #### Leap
 
     sudo zypper refresh
+    sudo zypper -lp
     sudo zypper patch
+
+(`-lp` is equivalent to `--list-patches`)
 
 
 #### Tumbleweed
 
     sudo zypper refresh
-    sudo zypper dup --download-only -y
-    sudo zypper dup --download-only -y
+    sudo zypper dup -dRy
+    sudo zypper dup -dRy
+
+(`-dRy` is equivalent to `--download-only --no-force-resolution --no-confirm`)
 
 until nothing is downloaded anymore; then:
 
@@ -348,6 +476,13 @@ Downloading all pending updates before actually applying them minimizes the
 risk of getting into an inconsistent state where some packages were updated,
 some were not, and some may already be available again in an even newer
 version.
+
+
+### VPN
+
+    zypper in NetworkManager-openvpn
+
+
 
 
 ### Disable Automatic Daily Updates Check
