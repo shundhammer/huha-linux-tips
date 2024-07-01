@@ -141,6 +141,8 @@ update both when matching versions are available:
 
     sudo zypper addlock opera chromium-ffmpeg-extra
 
+and
+
     sudo zypper removelock opera chromium-ffmpeg-extra
 
 Check with
@@ -160,7 +162,7 @@ or
 
     zypper lp | grep opera
 
-if a patch would update Opera. 
+if a patch would update Opera.
 
 
 
@@ -454,10 +456,10 @@ Add
 #### Leap
 
     sudo zypper refresh
-    sudo zypper -lp
+    sudo zypper lp
     sudo zypper patch
 
-(`-lp` is equivalent to `--list-patches`)
+(`lp` is equivalent to `list-patches`)
 
 
 #### Tumbleweed
