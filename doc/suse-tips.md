@@ -99,7 +99,7 @@ shot!_
 
     sudo zypper in qt5ct
 
-Add to ~root/.bashrc:
+Add to `~root/.bashrc`:
 
     export QT_QPA_PLATFORMTHEME=qt5ct
 
@@ -111,7 +111,7 @@ Configure the Qt look and feel: As root:
 
     qt5ct
 
-The result is stored in `~/.config/qt5ct`.
+The result is stored in `~root/.config/qt5ct`.
 
 
 ### Install the Opera Browser
@@ -120,8 +120,8 @@ No need to add an extra repo; Opera is available from the Leap Non-OSS repo.
 
     sudo zypper in opera
 
-But adding the extra codes from Chromium is strongly advised.
-Add the PackMan repo, then
+But adding the extra codecs from Chromium is strongly advised.
+Add the PackMan community repo, then
 
     sudo zypper in chromium-ffmpeg-extra
 
