@@ -22,7 +22,7 @@ Add the `PackMan` repo, then
     sudo zypper in vlc
 
 If your machine has a DVD drive and you want to watch video DVDs, add the
-'libdvdcss' repo, then
+`libdvdcss` community repo, then
 
     sudo zypper in libdvdcss2
 
@@ -31,7 +31,7 @@ If your machine has a DVD drive and you want to watch video DVDs, add the
 
     sudo visudo
 
-Add those lines at the end of the file (AFTER any 'include'):
+Add those lines at the end of the file (AFTER any `include`):
 
     myusername  ALL=(ALL) NOPASSWD: ALL
     Defaults !log_allowed
@@ -80,8 +80,8 @@ Just for user 'kilroy':
 
     Defaults: kilroy !syslog, !pam_session
 
-Just don't log successful 'sudo' commands
-(this will still log the 'sudo' session start and and the UID):
+Just don't log successful `sudo` commands
+(this will still log the `sudo` session start and and the UID):
 
     Defaults !log_allowed
 
@@ -252,6 +252,70 @@ For laptops:
 
 
 Personal preference: Replace `xfce4-*-branding-openSUSE` with `xfce4-*-branding-upstream`.
+
+
+## Change Tiny Bootloader and Console Font
+
+### Change Grub Font
+
+Create a .pf2 font in the size you like from a True Type Font (ttf):
+
+    sudo grub2-mkfont -s 24 -o /boot/grub2/deja.pf2 \
+      /usr/share/fonts/truetype/DejaVuSansMono.ttf
+
+Add that font to /etc/grub.d/00_header:
+
+    sudo vi /etc/grub.d/00_header
+
+    GRUB_FONT=/boot/grub2/deja.pf2
+
+Disable graphical booting and restore plain text mode for Grub:
+
+    sudo vi /etc/default/grub
+
+and comment out the lines with those variables:
+
+    # GRUB_TERMINAL="gfxterm"
+    # GRUB_GFXMODE="auto"
+    # GRUB_THEME=...
+
+Build a complete grub.cfg from all the snippets in /etc/grub.d:
+
+    sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
+### Change Console Font
+
+Install the `terminus-bitmap-fonts`:
+
+    sudo zypper in terminus-bitmap-fonts
+
+Check the available fonts in that package with
+
+    rpm -ql terminus-bitmap-fonts | grep console
+
+To preview the font, change to a text console (Ctrl-Alt-F1) and enter
+
+    setfont ter-v24b
+
+Configure an appropriate font:
+
+    sudo vi /etc/vconsole.conf
+
+    FONT=ter-v24b.psfu
+
+(original: `FONT=eurlatgr.psfu`)
+See also `man vconsole.conf`.
+
+Add this font as a default kernel parameter:
+
+    sudo vi /etc/default/grub
+
+    GRUB_CMDLINE_LINUX_DEFAULT="... vconsole.font=ter-v24b.psfu ..."
+
+and recreate the grub configuration:
+
+    sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 ----
 
