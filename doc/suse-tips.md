@@ -263,7 +263,7 @@ Create a .pf2 font in the size you like from a True Type Font (ttf):
     sudo grub2-mkfont -s 24 -o /boot/grub2/deja.pf2 \
       /usr/share/fonts/truetype/DejaVuSansMono.ttf
 
-Add that font to /etc/grub.d/00_header:
+Add that font to `/etc/grub.d/00_header`:
 
     sudo vi /etc/grub.d/00_header
 
@@ -279,7 +279,7 @@ and comment out the lines with those variables:
     # GRUB_GFXMODE="auto"
     # GRUB_THEME=...
 
-Build a complete grub.cfg from all the snippets in /etc/grub.d:
+Build a complete grub.cfg from all the snippets in `/etc/grub.d`:
 
     sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
