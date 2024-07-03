@@ -508,11 +508,24 @@ file.
 
 https://en.opensuse.org/SDB:Vendor_change_update
 
-    vi /etc/zypp/zypp.conf
+    sudo vi /etc/zypp/zypp.conf
 
 Add
 
     solver.allowVendorChange = true
+
+
+### Disable Delta RPMs
+
+If your Internet connection is fast, but delta RPMs take a long time to apply,
+simply tell zypper to download the complete new RPM instead of just a delta and
+apply the delta to the old RPM:
+
+    sudo vi /etc/zypp/zypp.conf
+
+Locate this line, uncomment it and set the value to _false_:
+
+    download.use_deltarpm = false
 
 
 ### Manually Updating
