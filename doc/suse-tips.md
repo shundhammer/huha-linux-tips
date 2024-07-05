@@ -166,6 +166,26 @@ if a patch would update Opera.
 
 
 
+## Switch off Annoying Emojis on Opera Tabs
+
+Edit the launcher (the .desktop file) on your desktop (right-click, then
+"Properties", switch to the "Launcher" tab) end add to the opera command line:
+
+    --with-feature:tab-art=off
+
+(Found somewhere in an Opera user forum, NOT on any official Opera web site)
+
+_Making this the default is annoying enough, but not giving the user the
+possibility to disable this is adding insult to injury._
+
+_This is one more step in all the enshittification that Opera has undergone in
+recent years. Simply stop adding more and more bullshit that nobody wants!
+Colored smileys that just get in the way when you want something as simple as
+_closing_ a tab, really? What is this, built-in Candy Crush? What are they
+thinking?!_
+
+
+
 ### Change Default Browser for URL Handling
 
 Symptom: Hyperlinks (http, https) are opened in Firefox, not in your favourite
