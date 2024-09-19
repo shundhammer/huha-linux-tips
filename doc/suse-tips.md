@@ -223,6 +223,18 @@ browser. In this example: _Opera_.
 **Notice that just setting the MIME association `text/html` to that browser might not work.**
 
 
+## Firefox
+
+### Don't Quit Firefox when Closing the Last Tab
+
+Go to `about:config`, search for `closeWindow` and change
+
+    browser.tabs.closeWindowWithLastTab
+
+to `false`.
+
+
+
 ### X11 Mouse Pointer Grabs
 
 Use `Ctrl` + `Alt` + `NumPad/` to stop a grabbed X11 mouse pointer.
@@ -233,6 +245,41 @@ combination indeed sends the _XF86Ungrab_ key symbol.
 
 
 ## Xfce Desktop
+
+### Usable Font Size on Full HD Laptop
+
+14" Laptops with a 1920x1200 or 1920x1080 resolution have 160 dpi, but setting
+that is too much: Fonts become huge, and you'd have to select a 7 or 8 point
+font which does not leave any room for smaller fonts on the desktop etc., and
+UI elements in Gtk become too large.
+
+Workaround: Select 128 dpi instead of the real 160 dpi.
+
+Go to _Settings_ -> _Appearance_ -> Tab "Fonts", check "Custom DPI setting",
+enter "128", then select the fonts you like.
+
+On my laptop, I have "Sans Regular 9.5" (yes, you can enter fractional numbers
+here) and "Monospace Regular 9".
+
+Don't forget: 
+
+-The xfce4-terminal settings: Context menu -> "Preferences" -> Tab
+"Appearance"; "Dejavu Sans Mono Book 9" is a good choice.
+
+- The desktop settings: Right-click on the desktop, "Desktop Settings", tab
+  "Icons"; if you have "Use custom font size", an 8 point font is a good choice
+  here.
+
+- "Settings" -> "Window Manager" -> tab "style"; "Title font" -> "Sans Regular 9".
+
+- Firefox fonts
+
+- Thunderbird fonts
+
+- Qt programs (qt5ct; see that section here)
+
+The larger UI elements are also used by Firefox and Thunderbird.
+
 
 ### Xfce NumLock State
 
