@@ -243,6 +243,17 @@ If that doesn't work, check with `xev` (`sudo zypper in xev`) if that key
 combination indeed sends the _XF86Ungrab_ key symbol.
 
 
+### Disable Web Pages Confirmation Popup when Closing
+
+Go to `about:config`, search for `dom.disable_beforeunload`, change to `false`.
+
+-> No more impertinent asking by web pages such as YouTube's comment history if
+   you are sure you want to leave the page.
+   
+   **None of your fucking business, YouTube!**
+   I am the boss on my machine, not some impertinent web programmer!
+
+
 
 ## Xfce Desktop
 
