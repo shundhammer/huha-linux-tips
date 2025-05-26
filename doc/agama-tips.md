@@ -45,6 +45,19 @@ cat /etc/vconsole.conf
 https://agama-project.github.io/docs/user/cli
 
 
+## Logs
+
+In the installed system:  /var/log/agama-installation
+
+During installation:
+
+```
+agama logs store
+```
+
+https://agama-project.github.io/docs/user/cli#agama-logs-store
+
+
 
 ## Reference
 
