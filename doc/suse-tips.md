@@ -27,7 +27,50 @@ If your machine has a DVD drive and you want to watch video DVDs, add the
     sudo zypper in libdvdcss2
 
 
-### Allow 'sudo' without password for yourself:
+## 'sudo' setup
+
+###
+
+- Add yourself to the 'wheel' user group:
+
+      sudo usermod -aG wheel $USER
+
+- Check with:
+
+      groups
+
+- Edit the 'sudo' configuration:
+
+      sudo visudo
+
+
+Add those lines at the end of the file (AFTER any `include`):
+
+
+```
+# Allow root privileges for members of the 'wheel' user group
+# %wheel ALL=(ALL:ALL) ALL
+
+## Same thing without a password
+%wheel ALL=(ALL:ALL) NOPASSWD: ALL
+
+# Allow root privileges for this one user (without password)
+# sh ALL=(ALL) NOPASSWD: ALL
+
+# Ask for the user's password, not the root password
+Defaults !targetpw
+
+Defaults env_keep = "DISPLAY WAYLAND_DISPLAY XAUTHORITY QT_QPA_PLATFORMTHEME QT_ENABLE_HIGHDPI_SCALING LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS"
+
+# Disable logging every sudo command
+# Defaults: sh !syslog, !pam_session
+Defaults !log_allowed
+```
+
+
+
+
+### _Old: Allow 'sudo' without password for yourself:_
 
     sudo visudo
 
