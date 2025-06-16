@@ -317,7 +317,7 @@ here) and "Monospace Regular 9".
 
 Don't forget: 
 
--The xfce4-terminal settings: Context menu -> "Preferences" -> Tab
+- The xfce4-terminal settings: Context menu -> "Preferences" -> Tab
 "Appearance"; "Dejavu Sans Mono Book 9" is a good choice.
 
 - The desktop settings: Right-click on the desktop, "Desktop Settings", tab
