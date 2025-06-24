@@ -47,23 +47,39 @@ If your machine has a DVD drive and you want to watch video DVDs, add the
 Add those lines at the end of the file (AFTER any `include`):
 
 
-```
+```sudoers
+# Per-terminal timeout (in minutes) before asking the password again; default: 5 min
+# sudo -K     to reset the timestamp for the current terminal so it asks again
+Defaults timestamp_timeout=10
+# Defaults timestamp_timeout=0
+
+# Ask for the root password
+Defaults targetpw
+
+# Only for the wheel group: Ask for the user's password
+Defaults: %wheel !targetpw
+
+Defaults env_reset
+Defaults: %wheel env_keep = "DISPLAY WAYLAND_DISPLAY XAUTHORITY QT_QPA_PLATFORMTHEME QT_ENABLE_HIGHDPI_SCALING"
+
 # Allow root privileges for members of the 'wheel' user group
 # %wheel ALL=(ALL:ALL) ALL
 
 ## Same thing without a password
 %wheel ALL=(ALL:ALL) NOPASSWD: ALL
 
+
+# Force asking for a password for 'myrlyn' and 'myrlyn-sudo'
+%wheel ALL=(root) PASSWD: /usr/bin/myrlyn
+%wheel ALL=(root) PASSWD: /bin/bash -c /usr/bin/myrlyn
+
+
 # Allow root privileges for this one user (without password)
 # sh ALL=(ALL) NOPASSWD: ALL
 
-# Ask for the user's password, not the root password
-Defaults !targetpw
+# Alternative:
+# Defaults env_keep = "DISPLAY WAYLAND_DISPLAY XAUTHORITY QT_QPA_PLATFORMTHEME QT_ENABLE_HIGHDPI_SCALING LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS"
 
-Defaults env_keep = "DISPLAY WAYLAND_DISPLAY XAUTHORITY QT_QPA_PLATFORMTHEME QT_ENABLE_HIGHDPI_SCALING LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS"
-
-# Disable logging every sudo command
-# Defaults: sh !syslog, !pam_session
 Defaults !log_allowed
 ```
 
@@ -292,7 +308,7 @@ Go to `about:config`, search for `dom.disable_beforeunload`, change to `false`.
 
 -> No more impertinent asking by web pages such as YouTube's comment history if
    you are sure you want to leave the page.
-   
+
    **None of your fucking business, YouTube!**
    I am the boss on my machine, not some impertinent web programmer!
 
@@ -315,7 +331,7 @@ enter "128", then select the fonts you like.
 On my laptop, I have "Sans Regular 9.5" (yes, you can enter fractional numbers
 here) and "Monospace Regular 9".
 
-Don't forget: 
+Don't forget:
 
 - The xfce4-terminal settings: Context menu -> "Preferences" -> Tab
 "Appearance"; "Dejavu Sans Mono Book 9" is a good choice.
