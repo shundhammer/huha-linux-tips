@@ -47,7 +47,7 @@ If your machine has a DVD drive and you want to watch video DVDs, add the
 Add those lines at the end of the file (AFTER any `include`):
 
 
-```sudoers
+```
 # Per-terminal timeout (in minutes) before asking the password again; default: 5 min
 # sudo -K     to reset the timestamp for the current terminal so it asks again
 Defaults timestamp_timeout=10
