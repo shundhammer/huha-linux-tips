@@ -293,6 +293,11 @@ Go to `about:config`, search for `closeWindow` and change
 to `false`.
 
 
+### Disable Detaching Browser Tabs
+
+    about:config
+    browser.tabs.allowTabDetach -> false
+
 
 ### X11 Mouse Pointer Grabs
 
